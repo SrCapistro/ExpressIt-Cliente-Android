@@ -86,13 +86,14 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRegistrarse"
             android:layout_width="match_parent"
-            android:background="#00749E"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
+            android:background="#00749E"
+            android:minHeight="48dp"
+            android:text="Registrate"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:text="Registrate"
-            />
+            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

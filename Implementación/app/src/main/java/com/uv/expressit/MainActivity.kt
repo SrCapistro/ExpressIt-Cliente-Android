@@ -1,5 +1,6 @@
 package com.uv.expressit
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -58,9 +59,12 @@ class MainActivity : AppCompatActivity() {
                             usuarioIngresado.fechaNacimiento = usuarioLogeado.getString("usr_fechaNacimiento")
                             println(usuarioIngresado.nombreCompletoUsuario)
                             //Codigo para abrir la nueva pantalla y pasarle el usuario
-
+                            val pantallaPrincipal = Intent(this@MainActivity,PantallaPrincipal::class.java)
+                            pantallaPrincipal.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            pantallaPrincipal.putExtra("idUsuarioLogeado", usuarioIngresado.idUsuario)
+                            startActivity(pantallaPrincipal)
                         }catch(jex: JSONException){
-                           jex.printStackTrace()
+                           Toast.makeText(this@MainActivity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
