@@ -37,7 +37,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/txtEntradaContenido"
+            android:id="@+id/txtEntrada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -51,7 +51,7 @@
             android:id="@+id/btnLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtEntradaContenido"
+            android:layout_below="@+id/txtEntrada"
             android:layout_marginTop="40dp"
             android:text="Me gusta"
             android:textStyle="bold" />
@@ -66,6 +66,6 @@
             android:layout_toEndOf="@+id/btnLike"
             android:paddingTop="50dp"
             android:paddingLeft="20dp"
-            android:layout_below="@+id/txtEntradaContenido"/>
+            android:layout_below="@+id/txtEntrada"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

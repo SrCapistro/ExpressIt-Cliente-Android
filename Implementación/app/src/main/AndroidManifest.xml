@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ExpressIt"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".RegistrarEntrada"
+            android:exported="false" />
+        <activity
             android:name=".PantallaPerfil"
             android:exported="false" />
         <activity

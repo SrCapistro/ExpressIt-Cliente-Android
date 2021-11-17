@@ -38,7 +38,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
         init{
             itemNombreUsuario = itemView.findViewById(R.id.txtUsuarioPublicacion)
-            itemEntradaUsuario = itemView.findViewById(R.id.txtEntradaContenido)
+            itemEntradaUsuario = itemView.findViewById(R.id.txtEntrada)
             itemFechaEntrada = itemView.findViewById(R.id.txtFechaEntrada)
             btnMeGusta = itemView.findViewById(R.id.btnLike)
             contadorMeGusta = itemView.findViewById(R.id.txtContadorMeGusta)
