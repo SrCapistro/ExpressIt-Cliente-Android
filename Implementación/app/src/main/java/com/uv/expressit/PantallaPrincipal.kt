@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.uv.expressit.DAO.DAOEntrada
+import com.uv.expressit.DAO.JSONUtils
 import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
 import org.json.JSONArray
@@ -61,7 +62,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     fun obtenerEntradas(idUsuario: Long?, vistaRecycler: RecyclerView){
-        DAOEntrada.obtenerEntradasDeSeguidos(idUsuario,this,  object : VolleyCallback{
+        DAOEntrada.obtenerEntradasDeSeguidos(idUsuario,this@PantallaPrincipal,  object : VolleyCallback{
             override fun onSuccessResponse(result: String) {
                 val jsonArray = JSONArray(result)
                 val listaEntradas: MutableList<Entrada> = ArrayList()
@@ -72,18 +73,16 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     entradaRecibida.fechaEntrada = entradaJson.get("ent_fechaEntrada").toString()
                     entradaRecibida.textoEntrada = entradaJson.get("ent_textEntrada").toString()
                     entradaRecibida.nombreUsuario = entradaJson.get("usr_nombreUsuario").toString()
-                    println(entradaRecibida.nombreUsuario)
                     listaEntradas.add(entradaRecibida)
                     val adapter = CustomAdapter()
+                    adapter.idUsuario = idUsuarioLogeado!!
                     adapter.listaEntradas = listaEntradas
+                    adapter.context = this@PantallaPrincipal
                     vistaRecycler.adapter = adapter
                 }
-
             }
-
         })
     }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -93,6 +92,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_item_Perfil -> {
                 val pantallaPerfil = Intent(this, PantallaPerfil::class.java)
                 intent.putExtra("idUsuario", idUsuarioLogeado)
+                intent.putExtra("perfilPersonal", true)
                 startActivity(pantallaPerfil)
             }
             R.id.nav_item_configuración -> {
