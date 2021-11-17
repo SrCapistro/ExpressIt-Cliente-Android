@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -46,6 +47,13 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
         drawer = findViewById(R.id.drawer_layout)
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
+
+        val btnPublicarEntrada = findViewById<Button>(R.id.btnExpressIt)
+        btnPublicarEntrada.setOnClickListener(){
+            val pantallaEntrada = Intent(this, RegistrarEntrada::class.java)
+            pantallaEntrada.putExtra("idUsuario", idUsuarioLogeado)
+            startActivity(pantallaEntrada)
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
