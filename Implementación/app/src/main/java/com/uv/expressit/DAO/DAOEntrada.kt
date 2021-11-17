@@ -21,5 +21,18 @@ class DAOEntrada {
                 Response.ErrorListener { print("Error") })
             queue.add(stringRequest)
         }
+
+        fun obtenerLikesEntrada(idEntrada: Long?, context: Context?, callback: VolleyCallback){
+            val urlService = "http://localhost:4000/feed/entrada_likes/"+idEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET, urlService, Response.Listener<String>{
+                    response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { println("Error") })
+            queue.add(stringRequest)
+        }
     }
 }

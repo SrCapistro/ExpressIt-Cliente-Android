@@ -21,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,7 +58,8 @@ class MainActivity : AppCompatActivity() {
                             usuarioIngresado.descripcionUsuario = usuarioLogeado.get("usr_descripcion").toString()
                             usuarioIngresado.tipoUsuario = usuarioLogeado.getString("usr_tipoUsuario")
                             usuarioIngresado.fechaNacimiento = usuarioLogeado.getString("usr_fechaNacimiento")
-                            println(usuarioIngresado.nombreCompletoUsuario)
+
+
                             //Codigo para abrir la nueva pantalla y pasarle el usuario
                             val pantallaPrincipal = Intent(this@MainActivity,PantallaPrincipal::class.java)
                             pantallaPrincipal.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
