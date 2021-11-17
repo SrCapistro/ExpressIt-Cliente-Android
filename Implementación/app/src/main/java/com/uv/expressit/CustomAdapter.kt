@@ -3,6 +3,8 @@ package com.uv.expressit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,22 +29,33 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
-        //listaEntradas[i].usuarioLike =
-        var contadorMegusta: Int=1
-        DAOEntrada.obtenerLikesEntrada(listaEntradas[i].idEntrada, context, object: VolleyCallback{
-            override fun onSuccessResponse(result: String) {
-                var jsonObtenido = JSONObject(JSONUtils.parsearJson(result))
-                contadorMegusta = jsonObtenido.get("likes").toString().toInt()
-            }
-        })
-        println(contadorMegusta)
-        viewHolder.contadorMeGusta.text = listaEntradas[i].likesEntrada.toString()
+        var contadorMegusta = listaEntradas[i].likesEntrada
+
+        viewHolder.contadorMeGusta.text = contadorMegusta.toString()
         viewHolder.itemNombreUsuario.text = listaEntradas[i].nombreUsuario
         viewHolder.itemFechaEntrada.text = listaEntradas[i].fechaEntrada
         viewHolder.itemEntradaUsuario.text = listaEntradas[i].textoEntrada
+
+        if(listaEntradas[i].usuarioLike == true){
+            viewHolder.btnMeGusta.setBackgroundColor(Color.parseColor("#00749E"))
+            viewHolder.btnMeGusta.setTextColor(Color.WHITE)
+        }
+        println(listaEntradas[i].usuarioLike)
+
         viewHolder.btnMeGusta.setOnClickListener{
-            contadorMegusta++
-            viewHolder.contadorMeGusta.text = contadorMegusta.toString()
+            if(listaEntradas[i].usuarioLike){
+                contadorMegusta--
+                listaEntradas[i].usuarioLike = false
+                viewHolder.contadorMeGusta.text = contadorMegusta.toString()
+                viewHolder.btnMeGusta.setBackgroundColor(Color.parseColor("#DCDCDC"))
+                viewHolder.btnMeGusta.setTextColor(Color.BLACK)
+            }else{
+                contadorMegusta++
+                listaEntradas[i].usuarioLike = true
+                viewHolder.contadorMeGusta.text = contadorMegusta.toString()
+                viewHolder.btnMeGusta.setBackgroundColor(Color.parseColor("#00749E"))
+                viewHolder.btnMeGusta.setTextColor(Color.WHITE)
+            }
         }
 
         viewHolder.itemNombreUsuario.setOnClickListener{

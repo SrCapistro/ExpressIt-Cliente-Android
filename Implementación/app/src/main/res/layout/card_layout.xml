@@ -40,32 +40,34 @@
             android:id="@+id/txtEntradaContenido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFechaEntrada"
             android:layout_marginTop="10dp"
             android:text="texto_entrada"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_below="@+id/txtFechaEntrada"/>
+            android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#DCDCDC"
             android:layout_below="@+id/txtEntradaContenido"
             android:layout_marginTop="40dp"
             android:text="Me gusta"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/txtContadorMeGusta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/txtEntradaContenido"
+            android:layout_toEndOf="@+id/btnLike"
+            android:paddingLeft="20dp"
+            android:paddingTop="50dp"
             android:text="contador_megusta"
-            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:layout_toEndOf="@+id/btnLike"
-            android:paddingTop="50dp"
-            android:paddingLeft="20dp"
-            android:layout_below="@+id/txtEntradaContenido"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

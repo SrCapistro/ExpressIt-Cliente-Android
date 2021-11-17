@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity() {
             if(nombreUsuario.isBlank() || contraseña.isBlank()){
                 Toast.makeText(this, "Debe ingresar un usuario y contraseña validos", Toast.LENGTH_SHORT).show()
             }else{
-                obtnerLogin(nombreUsuario, contraseña)
+               try{
+                   obtnerLogin(nombreUsuario, contraseña)
+               }catch (exception: Exception){
+                   Toast.makeText(this, "Error de conexión con el servidor", Toast.LENGTH_SHORT).show()
+               }
             }
         }
 
@@ -58,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                             usuarioIngresado.descripcionUsuario = usuarioLogeado.get("usr_descripcion").toString()
                             usuarioIngresado.tipoUsuario = usuarioLogeado.getString("usr_tipoUsuario")
                             usuarioIngresado.fechaNacimiento = usuarioLogeado.getString("usr_fechaNacimiento")
-
 
                             //Codigo para abrir la nueva pantalla y pasarle el usuario
                             val pantallaPrincipal = Intent(this@MainActivity,PantallaPrincipal::class.java)

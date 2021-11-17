@@ -22,6 +22,7 @@ class DAOEntrada {
             queue.add(stringRequest)
         }
 
+
         fun obtenerLikesEntrada(idEntrada: Long?, context: Context?, callback: VolleyCallback){
             val urlService = "http://localhost:4000/feed/entrada_likes/"+idEntrada
             val queue = Volley.newRequestQueue(context)
