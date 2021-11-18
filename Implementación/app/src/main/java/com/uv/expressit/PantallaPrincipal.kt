@@ -18,6 +18,7 @@ import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.Exception
 
 class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var drawer: DrawerLayout
@@ -73,6 +74,14 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     entradaRecibida.fechaEntrada = entradaJson.get("ent_fechaEntrada").toString()
                     entradaRecibida.textoEntrada = entradaJson.get("ent_textEntrada").toString()
                     entradaRecibida.nombreUsuario = entradaJson.get("usr_nombreUsuario").toString()
+                    entradaRecibida.likesEntrada = entradaJson.get("likes_totales").toString().toInt()
+                   try{
+                       if(entradaJson.getLong("tuLike") > -1){
+                           entradaRecibida.usuarioLike = true
+                       }
+                   }catch (exception: Exception){
+                       entradaRecibida.usuarioLike = false
+                   }
                     listaEntradas.add(entradaRecibida)
                     val adapter = CustomAdapter()
                     adapter.idUsuario = idUsuarioLogeado!!
