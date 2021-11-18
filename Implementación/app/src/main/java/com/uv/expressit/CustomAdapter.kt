@@ -28,7 +28,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
         //listaEntradas[i].usuarioLike =
-        var contadorMegusta: Int=1
+        /*var contadorMegusta: Int=1
         DAOEntrada.obtenerLikesEntrada(listaEntradas[i].idEntrada, context, object: VolleyCallback{
             override fun onSuccessResponse(result: String) {
                 var jsonObtenido = JSONObject(JSONUtils.parsearJson(result))
@@ -50,7 +50,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             pantallaNombreUsuario.putExtra("nombreUsuario", listaEntradas[i].nombreUsuario)
             pantallaNombreUsuario.putExtra("perfilPersonal", false)
             context?.startActivity(pantallaNombreUsuario)
-        }
+        }*/
     }
 
 

@@ -26,17 +26,69 @@
         <EditText
             android:id="@+id/txtEntrada"
             android:layout_width="match_parent"
-            android:layout_height="434dp"
+            android:layout_height="177dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="70dp"
+            android:layout_marginRight="20dp"
+            android:background="#1E1E1E"
             android:ems="10"
             android:gravity="start|top"
             android:hint="Entrada"
             android:inputType="textMultiLine"
             android:textColor="#90FDF4"
-            android:textColorHint="#C8C8C8"
+            android:textColorHint="#FFFFFF"
             android:textColorLink="#00BCD4"
             android:textSize="24sp"
             tools:textColor="#00BCD4" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Hashtags:"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/txtHashTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#2196F3"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtHashTagEscrito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="#1E1E1E"
+                android:ems="10"
+                android:hint="#Hashtag"
+                android:inputType="textPersonName"
+                android:textColor="#00BCD4"
+                android:textColorHint="#FFFFFF"
+                android:textColorLink="#00BCD4" />
+
+            <Button
+                android:id="@+id/btnAgregarHashtag"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:text="+" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
