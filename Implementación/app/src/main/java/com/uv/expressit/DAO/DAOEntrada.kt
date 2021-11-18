@@ -1,7 +1,6 @@
 package com.uv.expressit.DAO
 
 import android.content.Context
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -9,21 +8,18 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.uv.expressit.Interfaces.VolleyCallback
 import org.json.JSONObject
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import java.lang.Exception as Exception2
-import kotlin.Exception as Exception1
 
 class DAOEntrada {
     companion object {
+        var direccion: String = "http://26.191.102.84:4000/"
         fun obtenerEntradasDeSeguidos(
             idUsuario: Long?,
             context: Context,
             callback: VolleyCallback
         ) {
-            val urlService = "http://26.191.102.84:4000/feed/entradas_seguidores/" + idUsuario
+            val urlService = direccion+"feed/entradas_seguidores/" + idUsuario
             val queue = Volley.newRequestQueue(context)
             val stringRequest = StringRequest(
                 Request.Method.GET, urlService, Response.Listener<String> { response ->
@@ -35,8 +31,7 @@ class DAOEntrada {
         }
 
         fun registrarEntrada(idUsuario: Long?, textoEntrada: String, context: Context) {
-            val url =
-                "http://26.191.102.84:4000/feed/registrar_entrada/" // ruta del método de json al que va a mandar los datos
+            val url = direccion+"feed/registrar_entrada/" // ruta del método de json al que va a mandar los datos
             val parametros =
                 HashMap<String, String>() // creación del hashMap para la construcción del objeto json
             parametros["ent_idUsuario"] = idUsuario.toString()
@@ -58,7 +53,7 @@ class DAOEntrada {
         }
 
         fun obtenerUltimaEntradaRegistrada(context: Context, callback: VolleyCallback) {
-            val urlService = "http://26.191.102.84:4000/feed/obtenerId_ultimaEntrada/"
+            val urlService = direccion+"feed/obtenerId_ultimaEntrada/"
             val queue = Volley.newRequestQueue(context)
             val stringRequest = StringRequest(
                 Request.Method.GET, urlService, Response.Listener { response ->
@@ -72,7 +67,7 @@ class DAOEntrada {
         }
 
         fun registrarHashTags(hashtag: String, context: Context) {
-            val url = "http://26.191.102.84:4000/feed/registrar_hashtag/"
+            val url = direccion+"feed/registrar_hashtag/"
             val parametros = HashMap<String, String>()
             parametros["htg_nombre"] = hashtag
             println("hashtags: $hashtag")
@@ -93,7 +88,7 @@ class DAOEntrada {
         }
 
         fun obtenerUltimoIdHashtagRegistrado(context: Context, callback: VolleyCallback) {
-            val urlService = "http://26.191.102.84:4000/feed/obtenerId_ultimoHashtag/"
+            val urlService = direccion+"feed/obtenerId_ultimoHashtag/"
             val queue = Volley.newRequestQueue(context)
             val stringRequest = StringRequest(
                 Request.Method.GET, urlService, Response.Listener { response ->
@@ -107,7 +102,7 @@ class DAOEntrada {
         }
 
         fun obtenerHashtagsRecienRegistrados(idUltimoHashtag: Long?, context: Context, callback: VolleyCallback) {
-            val urlService = "http://26.191.102.84:4000/feed/obtenerId_hashtags/"+idUltimoHashtag
+            val urlService = direccion+"feed/obtenerId_hashtags/"+idUltimoHashtag
             val queue = Volley.newRequestQueue(context)
             val stringRequest = StringRequest(
                 Request.Method.GET, urlService, Response.Listener { response ->
@@ -121,7 +116,7 @@ class DAOEntrada {
         }
 
         fun asociarHashTags(idHastag: Long?, idEntrada: Long?, context: Context) {
-            val url = "http://26.191.102.84:4000/feed/asociar_hashtags/"
+            val url = direccion+"feed/asociar_hashtags/"
             val parametros = HashMap<String, String>()
             parametros["eh_idHashtag"] = idHastag.toString()
             parametros["eh_idEntrada"] = idEntrada.toString()
