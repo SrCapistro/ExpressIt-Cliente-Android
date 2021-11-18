@@ -72,6 +72,7 @@ class RegistrarEntrada : AppCompatActivity() {
                     }
                 }else{
                     DAOEntrada.registrarEntrada(idUsuarioPublicador, entradaContenido, this)
+                    Toast.makeText(this@RegistrarEntrada, "Su entrada se publicó exitosamente", Toast.LENGTH_LONG).show()
                 }
             }
         }
