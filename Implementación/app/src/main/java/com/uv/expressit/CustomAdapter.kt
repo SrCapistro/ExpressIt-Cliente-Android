@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.recyclerview.widget.RecyclerView
 import com.uv.expressit.DAO.DAOEntrada
 import com.uv.expressit.Interfaces.VolleyCallback
@@ -31,7 +33,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
     override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
         var contadorMegusta = listaEntradas[i].likesEntrada
         if(tipoUsuario.equals("Comun")){
-            viewHolder.btnBorrarLike.visibility = View.INVISIBLE
+            viewHolder.btnBorrarEntrada.visibility = View.INVISIBLE
         }
 
         var fechaEntrada = listaEntradas[i].fechaEntrada.replace("T", " a las: ")
@@ -83,6 +85,42 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             pantallaNombreUsuario.putExtra("tipoUsuario", tipoUsuario)
             context?.startActivity(pantallaNombreUsuario)
         }
+
+        viewHolder.btnBorrarEntrada.setOnClickListener(){
+            try{
+                DAOEntrada.borrarEntradaModerador(listaEntradas[i].idEntrada, context)
+                DAOEntrada.obtenerIdHashtagDeEntradaBorrada(listaEntradas[i].idEntrada, context,
+                    object : VolleyCallback{
+                        override fun onSuccessResponse(result: String) {
+                            var listaHashtags: MutableList<Long> = ArrayList()
+                            val jsonArray = JSONArray(result)
+                            for(i in 0 until jsonArray.length()){
+                                var entradaJson = jsonArray.getJSONObject(i)
+                                var idHashtagRecibido = entradaJson.get("idHashtag").toString().toLong()
+                                listaHashtags.add(idHashtagRecibido)
+                            }
+                            Thread.sleep(500)
+                            try{
+                                DAOEntrada.desAsociarEntradaDeHashtagsModerador(listaEntradas[i].idEntrada, context)
+                                Thread.sleep(200)
+                                for(i in 0 until listaHashtags.size){
+                                    DAOEntrada.borrarHashtagsModerador(listaHashtags[i], context)
+                                }
+                                Toast.makeText(context, "Entrada eliminada exitosamente", Toast.LENGTH_LONG).show()
+
+                            }catch (ex:Exception){
+                                println("Error: ${ex.message}")
+                                Toast.makeText(context, "Error al des asociar hashtags", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    })
+            }catch(e:Exception){
+                println("Error: ${e.message}")
+                Toast.makeText(context, "Error al eliminar entrada", Toast.LENGTH_LONG).show()
+            }
+
+        }
+
     }
 
 
@@ -107,7 +145,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             btnMeGusta = itemView.findViewById(R.id.btnLike)
             hashtagsEntrada = itemView.findViewById(R.id.txtHashtagsEntrada)
             contadorMeGusta = itemView.findViewById(R.id.txtContadorMeGusta)
-            btnBorrarLike = itemView.findViewById(R.id.btnBorrarEntrada)
+            btnBorrarEntrada = itemView.findViewById(R.id.btnBorrarEntrada)
         }
     }
 }

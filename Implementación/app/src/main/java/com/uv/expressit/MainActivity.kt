@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                             startActivity(pantallaPrincipal)
                         }catch(jex: JSONException){
                            Toast.makeText(this@MainActivity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()
+                            println("Error de login: ${jex.message}")
                         }
                     }
                 })
