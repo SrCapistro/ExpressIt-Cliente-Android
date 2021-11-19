@@ -13,7 +13,7 @@ import kotlin.collections.HashMap
 
 class DAOEntrada {
     companion object {
-        var direccion: String = "http://192.168.100.4:4000/"
+        var direccion: String = "http://26.191.102.84:4000/"
         fun obtenerEntradasDeSeguidos(
             idUsuario: Long?,
             idEntrada: Long?,
@@ -186,5 +186,62 @@ class DAOEntrada {
             val queue = Volley.newRequestQueue(context)
             queue.add(request)
         }
+
+        fun borrarEntradaModerador(idEntrada: Long?, context: Context?) {
+            val urlService = DAOEntrada.direccion +"feed/borrarEntrada_moderador/"+idEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.DELETE, urlService, Response.Listener { response ->
+                    println(response)
+                    return@Listener
+                },
+                Response.ErrorListener {
+                    println("Error al borrar entrada: $it")
+                })
+            queue.add(stringRequest)
+        }
+
+        fun obtenerIdHashtagDeEntradaBorrada(idEntrada: Long?, context: Context?, callback: VolleyCallback) {
+            val urlService = direccion+"feed/obtenerId_hashtags_entradaBorrada/"+idEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET, urlService, Response.Listener { response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener {
+                    println("Error al obtenerHashtags: $it")
+                })
+            queue.add(stringRequest)
+        }
+
+        fun desAsociarEntradaDeHashtagsModerador(idEntrada: Long?, context: Context?) {
+            val urlService = DAOEntrada.direccion +"feed/desAsociarEntrada_moderador/"+idEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.DELETE, urlService, Response.Listener { response ->
+                    println(response)
+                    return@Listener
+                },
+                Response.ErrorListener {
+                    println("Error al des asociar entrada: $it")
+                })
+            queue.add(stringRequest)
+        }
+
+        fun borrarHashtagsModerador(idHashtag: Long?, context: Context?) {
+            val urlService = DAOEntrada.direccion +"feed/borrarHashtag_moderador/"+idHashtag
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.DELETE, urlService, Response.Listener { response ->
+                    println(response)
+                    return@Listener
+                },
+                Response.ErrorListener {
+                    println("Error al borrar hashtag: $it")
+                })
+            queue.add(stringRequest)
+        }
+
     }
 }
