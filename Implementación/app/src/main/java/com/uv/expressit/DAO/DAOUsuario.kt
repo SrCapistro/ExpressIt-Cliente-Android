@@ -89,5 +89,46 @@ class DAOUsuario {
             queue.add(stringRequest)
         }
 
+        fun registrarNuevoUsuario(nombreUsuario:String, descripcion:String, estatus:Int, nombreCompleto:String,
+                                  correo:String, tipoUsuario:String, contra:String, nacimiento:String, context: Context){
+
+            val url = direccion +"users/registrar_nuevo_usuario/"
+            val parametros = HashMap<String, String>()
+            parametros["usr_nombreUsuario"] = nombreUsuario
+            parametros["usr_descripcion"] = descripcion
+            parametros["usr_estatus"] = estatus.toString()
+            parametros["usr_nombre"] = nombreCompleto
+            parametros["usr_correo"] = correo
+            parametros["usr_tipoUsuario"] = tipoUsuario
+            parametros["usr_contraseña"] = contra
+            parametros["usr_fechaNacimiento"] = nacimiento
+
+            val jsonObject = JSONObject(parametros as Map<*, *>)
+
+            val request = JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                Response.Listener { response ->
+                    println("Éxito: ${response}")
+                }, Response.ErrorListener {
+                    println("Error: ${it}")
+                })
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+        }
+
+        //metodo para ver si ya hay un usuario con ese nombre
+        fun obtenerNombresUsuarios(nombreUsuario: String, context: Context, callback: VolleyCallback){
+            val urlService = direccion +"users/obtener_Usuarios/"+nombreUsuario
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+
+
     }
 }

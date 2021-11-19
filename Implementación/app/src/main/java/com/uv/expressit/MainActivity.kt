@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val txtUsuario = findViewById<EditText>(R.id.txtNombreUsuario)
         val txtContraseña = findViewById<EditText>(R.id.txtContraseña)
         val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSesion)
-
+        val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
 
         btnIniciarSesion.setOnClickListener{
             var nombreUsuario = txtUsuario.text.toString()
@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
                    Toast.makeText(this, "Error de conexión con el servidor", Toast.LENGTH_SHORT).show()
                }
             }
+        }
+
+        btnRegistrarse.setOnClickListener{
+            val intento1 = Intent(this, RegistrarUsuario::class.java)
+            startActivity(intento1)
         }
 
     }
