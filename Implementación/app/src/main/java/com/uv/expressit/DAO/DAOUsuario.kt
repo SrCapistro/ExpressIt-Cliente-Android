@@ -66,6 +66,7 @@ class DAOUsuario {
             val request = JsonObjectRequest(Request.Method.POST, url, jsonObject, //creación y manejo del request
                 Response.Listener { response ->
                     println("Éxito: ${response}")
+                    return@Listener
                 },
                 Response.ErrorListener {
                     println("Error: ${it}")

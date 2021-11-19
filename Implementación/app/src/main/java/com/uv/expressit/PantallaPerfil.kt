@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
@@ -47,8 +49,9 @@ class PantallaPerfil : AppCompatActivity() {
         tipoUsuario = bundle?.getString("tipoUsuario")
         nombreUsuario = bundle?.getString("nombreUsuario")
         var perfilPersonal = bundle?.getBoolean("perfilPersonal")
-        var idUsuarioLoggeado: Long? = bundle?.getLong("idUsuarioLoggeado")
-        println("Usuario: $idUsuarioLoggeado")
+        idUsuario = bundle?.getLong("idUsuario")
+        var idUsuarioLoggeado: Long? = bundle?.getLong("idUsuario")
+
         val usuarioIdInstancia = Usuario()
         if(perfilPersonal == true){
             //Aqui se muestran los datos del perfil personal
@@ -128,6 +131,7 @@ class PantallaPerfil : AppCompatActivity() {
                     }
                 )
                 queue.add(imageRequest)
+                obtenerEntradas(idUsuario, nombreUsuario, recyclerView)
             }
 
         }
@@ -135,8 +139,6 @@ class PantallaPerfil : AppCompatActivity() {
     }
 
     private fun obtenerEntradas(idUsuario: Long?, nombreUsuario: String?, vistaRecycler: RecyclerView?){
-        println("idusuario: "+idUsuario)
-        println("nombreUsuario: "+ nombreUsuario)
         DAOEntrada.obtenerEntradasPersonales(idUsuario, nombreUsuario,this@PantallaPerfil,  object : VolleyCallback{
                 override fun onSuccessResponse(result: String) {
                     val jsonArray = JSONArray(result)
@@ -159,6 +161,7 @@ class PantallaPerfil : AppCompatActivity() {
                         listaEntradas.add(entradaRecibida)
                         val adapter = CustomAdapter()
                         adapter.idUsuario = idUsuario!!
+                        println("TU ID:"+idUsuario)
                         adapter.listaEntradas = listaEntradas
                         adapter.context = this@PantallaPerfil
                         adapter.tipoUsuario = tipoUsuario!!
