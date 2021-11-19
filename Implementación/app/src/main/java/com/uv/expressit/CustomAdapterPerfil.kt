@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,29 +13,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uv.expressit.DAO.DAOEntrada
 import com.uv.expressit.POJO.Entrada
 
-class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
-    var listaEntradas: MutableList<Entrada> = ArrayList()
+class CustomAdapterPerfil: RecyclerView.Adapter<CustomAdapterPerfil.ViewHolder>(){
+
     var idUsuario: Long = 0
-    var context: Context? = null
     var tipoUsuario: String = ""
+    var context: Context? = null
+    var listaEntradas: MutableList<Entrada> = ArrayList()
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.card_layout, viewGroup, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         var contadorMegusta = listaEntradas[i].likesEntrada
-        if(tipoUsuario.equals("Comun")){
-            viewHolder.btnBorrarLike.visibility = View.INVISIBLE
-        }
 
-        var fechaEntrada = listaEntradas[i].fechaEntrada.replace("T", " a las: ")
-        fechaEntrada = fechaEntrada.replace("Z", "")
-
-        viewHolder.contadorMeGusta.text = contadorMegusta.toString()+" Me gusta"
+        viewHolder.contadorMeGusta.text = contadorMegusta.toString()
         viewHolder.itemNombreUsuario.text = listaEntradas[i].nombreUsuario
-        viewHolder.itemFechaEntrada.text = "Publicado el dia: "+fechaEntrada
+        viewHolder.itemFechaEntrada.text = listaEntradas[i].fechaEntrada
         viewHolder.itemEntradaUsuario.text = listaEntradas[i].textoEntrada
 
         if(listaEntradas[i].usuarioLike == true){
@@ -67,17 +61,13 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             val pantallaNombreUsuario = Intent(context,PantallaPerfil::class.java)
             pantallaNombreUsuario.putExtra("nombreUsuario", listaEntradas[i].nombreUsuario)
             pantallaNombreUsuario.putExtra("perfilPersonal", false)
-            pantallaNombreUsuario.putExtra("idUsuario", idUsuario)
-            pantallaNombreUsuario.putExtra("tipoUsuario", tipoUsuario)
             context?.startActivity(pantallaNombreUsuario)
         }
     }
 
-
     override fun getItemCount(): Int {
         return listaEntradas.size
     }
-
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var itemNombreUsuario: TextView

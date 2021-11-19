@@ -9,7 +9,7 @@ import com.uv.expressit.Interfaces.VolleyCallback
 
 class DAOUsuario {
     companion object{
-        var direccion: String = "http://26.191.102.84:4000/"
+        var direccion: String = "http://192.168.100.4:4000/"
         fun obtenerLoginUsuario(nombreUsuario: String, contraseña: String, context: Context, callback: VolleyCallback){
             val urlService = direccion+"auth/login/"+nombreUsuario+"/"+contraseña
             val queue = Volley.newRequestQueue(context)

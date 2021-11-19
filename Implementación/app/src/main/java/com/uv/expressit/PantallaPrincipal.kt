@@ -1,24 +1,33 @@
 package com.uv.expressit
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.ImageRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.navigation.NavigationView
 import com.uv.expressit.DAO.DAOEntrada
-import com.uv.expressit.DAO.JSONUtils
 import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
 import org.json.JSONArray
-import org.json.JSONObject
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var drawer: DrawerLayout
@@ -27,26 +36,59 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     private lateinit var pantallaPerfil: Intent
     private lateinit var pantallaConfiguration: Intent
     private var idUsuarioLogeado: Long? = null
+    private var tipoUsuario: String? = ""
+    private var idUltimaEntrada: Long? = 0
+    private var nombreUsuario: String? = ""
+    private var listaEntradas: MutableList<Entrada> = ArrayList()
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_principal)
 
 
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        val headerView = navView.getHeaderView(0)
+        val imageView = headerView.findViewById<ImageView>(R.id.nav_header_imageView)
+        val lbNombreUsuario = headerView.findViewById<TextView>(R.id.nav_header_textView)
+
+
         val bundle = intent.extras
         idUsuarioLogeado = bundle?.getLong("idUsuarioLogeado")
+        tipoUsuario = bundle?.getString("tipoUsuario")
+        nombreUsuario = bundle?.getString("nombreUsuario")
+
+        lbNombreUsuario.text = "@"+nombreUsuario
+        cargarImagenUsuario(imageView, nombreUsuario)
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
-
-
         val recyclerView = findViewById<RecyclerView>(R.id.vistaEntradas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        obtenerEntradas(idUsuarioLogeado, recyclerView)
+
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        val date = String.format(currentDate)
+
+
+        obtenerEntradas(idUsuarioLogeado,10000000000,recyclerView)
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)){
+                    obtenerEntradas(idUsuarioLogeado, idUltimaEntrada, recyclerView)
+                }
+            }
+
+        })
+
         drawer = findViewById(R.id.drawer_layout)
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
+
+
 
         val btnPublicarEntrada = findViewById<Button>(R.id.btnExpressIt)
         btnPublicarEntrada.setOnClickListener(){
@@ -62,11 +104,24 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     }
 
-    fun obtenerEntradas(idUsuario: Long?, vistaRecycler: RecyclerView){
-        DAOEntrada.obtenerEntradasDeSeguidos(idUsuario,this@PantallaPrincipal,  object : VolleyCallback{
+    fun cargarImagenUsuario(imageView: ImageView, nombreUsuario: String?){
+        val urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario
+        val queue = Volley.newRequestQueue(this)
+        var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
+            imageView.setImageBitmap(bitmap)
+        },0,0,null,null,
+            {error->
+                Toast.makeText(this, "Error al cargar la foto de perfil", Toast.LENGTH_SHORT).show()
+            }
+        )
+        queue.add(imageRequest)
+    }
+
+
+    fun obtenerEntradas(idUsuario: Long?,idEntrada: Long?, vistaRecycler: RecyclerView?){
+        DAOEntrada.obtenerEntradasDeSeguidos(idUsuario, idEntrada, this@PantallaPrincipal,  object : VolleyCallback{
             override fun onSuccessResponse(result: String) {
                 val jsonArray = JSONArray(result)
-                val listaEntradas: MutableList<Entrada> = ArrayList()
                 for (i in 0 until jsonArray.length()){
                     var entradaJson = jsonArray.getJSONObject(i)
                     var entradaRecibida = Entrada()
@@ -82,12 +137,17 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                    }catch (exception: Exception){
                        entradaRecibida.usuarioLike = false
                    }
+                    idUltimaEntrada = entradaRecibida.idEntrada
                     listaEntradas.add(entradaRecibida)
+
+                    listaEntradas.sortBy { entradaRecibida.fechaEntrada }
+
                     val adapter = CustomAdapter()
                     adapter.idUsuario = idUsuarioLogeado!!
                     adapter.listaEntradas = listaEntradas
                     adapter.context = this@PantallaPrincipal
-                    vistaRecycler.adapter = adapter
+                    adapter.tipoUsuario = tipoUsuario.toString()
+                    vistaRecycler?.adapter = adapter
                 }
             }
         })
@@ -96,7 +156,11 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.nav_item_Inicio -> {
-                println(idUsuarioLogeado)
+                this.recreate()
+            }
+
+            R.id.nav_item_buscar ->{
+                println("Buscar")
             }
             R.id.nav_item_Perfil -> {
                 val pantallaPerfil = Intent(this, PantallaPerfil::class.java)
@@ -105,7 +169,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 startActivity(pantallaPerfil)
             }
             R.id.nav_item_configuración -> {
-
+                //Aquí va el codigo para configurar el perfil, osea editarlo
             }
             R.id.nav_item_CerrarSesion -> {
                 this.finish()

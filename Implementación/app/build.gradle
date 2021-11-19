@@ -49,5 +49,6 @@ dependencies {
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout'
 }

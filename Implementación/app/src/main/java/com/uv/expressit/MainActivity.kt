@@ -67,6 +67,8 @@ class MainActivity : AppCompatActivity() {
                             val pantallaPrincipal = Intent(this@MainActivity,PantallaPrincipal::class.java)
                             pantallaPrincipal.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             pantallaPrincipal.putExtra("idUsuarioLogeado", usuarioIngresado.idUsuario)
+                            pantallaPrincipal.putExtra("tipoUsuario", usuarioIngresado.tipoUsuario)
+                            pantallaPrincipal.putExtra("nombreUsuario", usuarioIngresado.nombreUsuario)
                             startActivity(pantallaPrincipal)
                         }catch(jex: JSONException){
                            Toast.makeText(this@MainActivity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()

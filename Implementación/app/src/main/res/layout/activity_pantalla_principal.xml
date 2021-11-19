@@ -14,35 +14,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/vistaEntradas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="58dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnExpressIt"
-        android:text="Express It"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="690dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vistaEntradas"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/btnExpressIt"
+            android:text="Express It"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:itemTextColor="@color/white"
+        android:background="#131313"
         android:layout_gravity="start"
         app:headerLayout="@layout/mav_header_main"
         app:menu="@menu/activity_main_drawer"/>
-
-
-
-
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

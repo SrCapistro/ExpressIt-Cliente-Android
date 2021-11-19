@@ -13,20 +13,37 @@ import kotlin.collections.HashMap
 
 class DAOEntrada {
     companion object {
-        var direccion: String = "http://26.191.102.84:4000/"
+        var direccion: String = "http://192.168.100.4:4000/"
         fun obtenerEntradasDeSeguidos(
             idUsuario: Long?,
+            idEntrada: Long?,
             context: Context,
             callback: VolleyCallback
         ) {
-            val urlService = direccion+"feed/entradas_seguidores/" + idUsuario
+            val urlService = direccion+"feed/entradas_seguidores/" + idUsuario+"/"+idEntrada
             val queue = Volley.newRequestQueue(context)
+            val parametros = HashMap<String, String>()
+            val json = JSONObject(parametros as Map<*,*>)
+
             val stringRequest = StringRequest(
                 Request.Method.GET, urlService, Response.Listener<String> { response ->
                     callback.onSuccessResponse(response)
                     return@Listener
                 },
                 Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+
+
+        fun obtenerEntradasPersonales(idUsuario: Long?, nombreUsuario: String?, context: Context, volleyCallback: VolleyCallback){
+            val url = direccion+"feed/entradas/"+nombreUsuario+"/"+idUsuario
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(Request.Method.GET, url, Response.Listener<String>{
+                response ->
+                volleyCallback.onSuccessResponse(response)
+                return@Listener
+            },
+            Response.ErrorListener { print("Error") })
             queue.add(stringRequest)
         }
 
@@ -70,7 +87,6 @@ class DAOEntrada {
             val url = direccion+"feed/registrar_hashtag/"
             val parametros = HashMap<String, String>()
             parametros["htg_nombre"] = hashtag
-            println("hashtags: $hashtag")
             val jsonObject = JSONObject(parametros as Map<*, *>)
 
             val request = JsonObjectRequest(Request.Method.POST,
@@ -78,6 +94,7 @@ class DAOEntrada {
                 jsonObject, //creación y manejo del request
                 Response.Listener { response ->
                     println("Éxito: ${response}")
+                    return@Listener
                 },
                 Response.ErrorListener {
                     println("Error: ${it}")
@@ -127,6 +144,7 @@ class DAOEntrada {
                 jsonObject, //creación y manejo del request
                 Response.Listener { response ->
                     println("Éxito: ${response}")
+                    return@Listener
                 },
                 Response.ErrorListener {
                     println("Error: ${it}")
@@ -136,5 +154,36 @@ class DAOEntrada {
 
         }
 
+        fun likearEntrada(idEntrada: Long?, idUsuario: Long?, context: Context?){
+            var url = direccion+"feed/likear_entrada"
+            val parametros = HashMap<String, Any>()
+
+
+            parametros["lk_idEntrada"] = idEntrada.toString().toLong()
+            parametros["lk_idUsuario"] = idUsuario.toString().toLong()
+            val jsonObject = JSONObject(parametros as Map<*,*>)
+
+            val request = JsonObjectRequest(Request.Method.POST,
+            url,
+            jsonObject,
+            Response.Listener { response ->
+                println(response)
+                return@Listener
+            },
+            Response.ErrorListener { println(it) })
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+        }
+
+        fun borrarLike(idEntrada: Long?, idUsuario: Long?, context: Context?){
+            var url = direccion+"feed/entrada_borrarlike/"+idEntrada+"/"+idUsuario
+            val request = StringRequest(Request.Method.DELETE,
+            url,
+            Response.Listener { response -> println(response)
+                              return@Listener},
+            Response.ErrorListener { println(it) })
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+        }
     }
 }
