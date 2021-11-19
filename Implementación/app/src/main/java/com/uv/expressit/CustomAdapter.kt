@@ -62,6 +62,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             val pantallaNombreUsuario = Intent(context,PantallaPerfil::class.java)
             pantallaNombreUsuario.putExtra("nombreUsuario", listaEntradas[i].nombreUsuario)
             pantallaNombreUsuario.putExtra("perfilPersonal", false)
+            pantallaNombreUsuario.putExtra("idUsuarioLoggeado", idUsuario)
             context?.startActivity(pantallaNombreUsuario)
         }
     }
