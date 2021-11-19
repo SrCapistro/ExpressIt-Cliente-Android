@@ -20,10 +20,12 @@ import com.android.volley.Response
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.JsonArray
 import com.uv.expressit.DAO.DAOEntrada
 import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
 import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -140,15 +142,29 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     idUltimaEntrada = entradaRecibida.idEntrada
                     listaEntradas.add(entradaRecibida)
 
-                    listaEntradas.sortBy { entradaRecibida.fechaEntrada }
+                    //listaEntradas.sortBy { entradaRecibida.fechaEntrada }
 
-                    val adapter = CustomAdapter()
-                    adapter.idUsuario = idUsuarioLogeado!!
-                    adapter.listaEntradas = listaEntradas
-                    adapter.context = this@PantallaPrincipal
-                    adapter.tipoUsuario = tipoUsuario.toString()
-                    vistaRecycler?.adapter = adapter
                 }
+                for(i in 0 until listaEntradas.size){
+                    DAOEntrada.obtenerHashtagEntrada(listaEntradas[i].idEntrada, this@PantallaPrincipal, object: VolleyCallback{
+                        override fun onSuccessResponse(result: String) {
+                            listaEntradas[i].listaHashtags.clear()
+                            var listaHashtags = JSONArray(result)
+
+                            for(j in 0 until listaHashtags.length()){
+                                var json = listaHashtags.getJSONObject(j)
+                                listaEntradas[i].listaHashtags.add(json.get("htg_nombre").toString())
+                            }
+                            val adapter = CustomAdapter()
+                            adapter.idUsuario = idUsuarioLogeado!!
+                            adapter.listaEntradas = listaEntradas
+                            adapter.context = this@PantallaPrincipal
+                            adapter.tipoUsuario = tipoUsuario.toString()
+                            vistaRecycler?.adapter = adapter
+                        }
+                    })
+                }
+
             }
         })
     }

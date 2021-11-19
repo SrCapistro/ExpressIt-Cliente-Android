@@ -161,7 +161,6 @@ class PantallaPerfil : AppCompatActivity() {
                         listaEntradas.add(entradaRecibida)
                         val adapter = CustomAdapter()
                         adapter.idUsuario = idUsuario!!
-                        println("TU ID:"+idUsuario)
                         adapter.listaEntradas = listaEntradas
                         adapter.context = this@PantallaPerfil
                         adapter.tipoUsuario = tipoUsuario!!

@@ -7,4 +7,5 @@ class Entrada {
     var textoEntrada: String = ""
     var likesEntrada: Int = 0
     var usuarioLike: Boolean = false
+    var listaHashtags: MutableList<String> = ArrayList()
 }

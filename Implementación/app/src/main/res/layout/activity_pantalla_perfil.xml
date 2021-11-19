@@ -45,65 +45,77 @@
                 android:textSize="40dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtNombreCompleto"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="nombre_completo"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:background="#252525">
 
-            <TextView
-                android:id="@+id/txtFechaNacimiento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="fecha_nacimiento"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtNombreCompleto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="nombre_completo"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtSeguidoresTotales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="seguidores_totales"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtFechaNacimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="fecha_nacimiento"
+                    android:textColor="@color/white"
+                    android:layout_below="@+id/txtNombreCompleto"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtEntradasTotales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="entradas_totales"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtSeguidoresTotales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@+id/txtFechaNacimiento"
+                    android:text="seguidores_totales"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtDescripcionUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="40dp"
-                android:text="descripción_usuario"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtEntradasTotales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="entradas_totales"
+                    android:layout_below="@+id/txtSeguidoresTotales"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDescripcionUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="40dp"
+                    android:text="descripción_usuario"
+                    android:textAlignment="center"
+                    android:layout_below="@id/txtEntradasTotales"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSeguir"
@@ -118,6 +130,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/entradasUsuario"
                 android:layout_width="match_parent"
+                android:background="#151515"
                 android:layout_height="600dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
