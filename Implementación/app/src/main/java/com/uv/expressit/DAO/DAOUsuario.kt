@@ -11,7 +11,7 @@ import org.json.JSONObject
 
 class DAOUsuario {
     companion object{
-        var direccion: String = "http://26.191.102.84:4000/"
+        var direccion: String = "http://expressit.ddns.net/"
         fun obtenerLoginUsuario(nombreUsuario: String, contraseña: String, context: Context, callback: VolleyCallback){
             val urlService = direccion+"auth/login/"+nombreUsuario+"/"+contraseña
             val queue = Volley.newRequestQueue(context)

@@ -3,15 +3,20 @@ package com.uv.expressit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.recreate
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.ImageRequest
+import com.android.volley.toolbox.Volley
 import com.uv.expressit.DAO.DAOEntrada
 import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
@@ -57,7 +62,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             viewHolder.btnMeGusta.setBackgroundColor(Color.parseColor("#00749E"))
             viewHolder.btnMeGusta.setTextColor(Color.WHITE)
         }
-        println(listaEntradas[i].usuarioLike)
+
 
         viewHolder.btnMeGusta.setOnClickListener{
             if(listaEntradas[i].usuarioLike){
@@ -121,6 +126,18 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
         }
 
+
+        val urlService = "http://expressit.ddns.net/files/media/"+listaEntradas[i].idEntrada
+        val queue = Volley.newRequestQueue(context)
+        var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
+            viewHolder.imagenEntrada.setImageBitmap(bitmap)
+        },0,0,null,null,
+            {error->
+                println(error   )
+            }
+        )
+        queue.add(imageRequest)
+
     }
 
 
@@ -135,10 +152,12 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
         var itemFechaEntrada: TextView
         var btnMeGusta: Button
         var contadorMeGusta: TextView
-        var btnBorrarLike: Button
+        var btnBorrarEntrada: Button
         var hashtagsEntrada: TextView
+        var imagenEntrada: ImageView
 
         init{
+            imagenEntrada = itemView.findViewById(R.id.imageEntrada)
             itemNombreUsuario = itemView.findViewById(R.id.txtUsuarioPublicacion)
             itemEntradaUsuario = itemView.findViewById(R.id.txtEntrada)
             itemFechaEntrada = itemView.findViewById(R.id.txtFechaEntrada)

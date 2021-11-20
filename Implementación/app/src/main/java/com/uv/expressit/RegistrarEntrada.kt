@@ -1,13 +1,19 @@
 package com.uv.expressit
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.provider.MediaStore
+import android.widget.*
+import androidx.annotation.RequiresApi
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.uv.expressit.DAO.DAOEntrada
+import com.uv.expressit.DAO.FileDataPart
 import com.uv.expressit.DAO.JSONUtils
+import com.uv.expressit.DAO.VolleyFileUploadRequest
 import com.uv.expressit.Interfaces.VolleyCallback
 import com.uv.expressit.POJO.Entrada
 import org.json.JSONArray
@@ -16,6 +22,8 @@ import kotlin.coroutines.*
 
 class RegistrarEntrada : AppCompatActivity() {
     var hashtags: MutableList<String> = ArrayList()
+    lateinit var imageView: ImageView
+    private var imageData: ByteArray? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -24,7 +32,8 @@ class RegistrarEntrada : AppCompatActivity() {
         val bundle = intent.extras
         val idUsuarioPublicador = bundle?.getLong("idUsuario")
 
-        val btnSalir = findViewById<Button>(R.id.btnRegresar)
+        imageView = findViewById<ImageView>(R.id.entradaFoto)
+        val btnSubirArchivo = findViewById<Button>(R.id.btnAñadirArchivo)
         val btnPublicar = findViewById<Button>(R.id.btnPublicar)
         val txtEntrada = findViewById<EditText>(R.id.txtEntrada)
         val txtHashTagIngresado = findViewById<EditText>(R.id.txtHashTagEscrito)
@@ -38,9 +47,14 @@ class RegistrarEntrada : AppCompatActivity() {
             println("hashtags: ${hashtags[0]}")
         }
 
-        btnSalir.setOnClickListener(){
-            finish()
+        btnSubirArchivo.setOnClickListener{
+            var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*")
+            startActivityForResult(intent, 1)
+
         }
+
+
 
         btnPublicar.setOnClickListener(){
             val entradaContenido = txtEntrada.text.toString()
@@ -53,6 +67,7 @@ class RegistrarEntrada : AppCompatActivity() {
                         try {
                             Thread.sleep(500)
                             registrarHashTags()
+                            this.finish()
                         } catch (exc: Exception) {
                             println("Error $exc")
                             Toast.makeText(
@@ -70,11 +85,72 @@ class RegistrarEntrada : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
+                    if(imageData != null){
+                        DAOEntrada.obtenerUltimaEntradaRegistrada(this, object: VolleyCallback{
+                            override fun onSuccessResponse(result: String) {
+                                var entradaRegistrada = JSONObject(JSONUtils.parsearJson(result))
+                                var entradaRecibida = Entrada()
+                                entradaRecibida.idEntrada = entradaRegistrada.get("ent_idEntrada").toString().toLong()
+                                subirFoto(entradaRecibida.idEntrada)
+                            }
+
+                        })
+                    }
                 }else{
                     DAOEntrada.registrarEntrada(idUsuarioPublicador, entradaContenido, this)
                     Toast.makeText(this@RegistrarEntrada, "Su entrada se publicó exitosamente", Toast.LENGTH_LONG).show()
+                    if(imageData != null){
+                        DAOEntrada.obtenerUltimaEntradaRegistrada(this, object: VolleyCallback{
+                            override fun onSuccessResponse(result: String) {
+                                var entradaRegistrada = JSONObject(JSONUtils.parsearJson(result))
+                                var entradaRecibida = Entrada()
+                                entradaRecibida.idEntrada = entradaRegistrada.get("ent_idEntrada").toString().toLong()
+                                subirFoto(entradaRecibida.idEntrada)
+                            }
+
+                        })
+                    }
+                    this.finish()
                 }
             }
+        }
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            val uri = data?.data
+            if (uri != null) {
+                imageView.setImageURI(uri)
+                crearDatosDeImagen(uri)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun subirFoto(idEntrada: Long?){
+        imageData?: return
+        val url = "http://expressit.ddns.net/files/media/entradas/"+idEntrada
+        val request = object: VolleyFileUploadRequest(
+            Method.POST, url, Response.Listener { println(it) },
+            Response.ErrorListener {
+                println("error is: $it")
+            }
+        ){
+            override fun getByteData(): MutableMap<String, FileDataPart> {
+                var params = HashMap<String, FileDataPart>()
+                params["archivo"] = FileDataPart("archivo", imageData!!, "jpeg")
+                return params
+            }
+        }
+        Volley.newRequestQueue(this).add(request)
+    }
+
+    fun crearDatosDeImagen(uri: Uri) {
+        val inputStream = contentResolver.openInputStream(uri)
+        inputStream?.buffered()?.use {
+            imageData = it.readBytes()
         }
     }
 

@@ -67,10 +67,22 @@ class PantallaPerfil : AppCompatActivity() {
                         println("Usuario Obtenido; $idUsuarioObtenido")
                         txtNombreCompleto.text = jsonObtenido.get("usr_nombre").toString()
                         txtNombreUsuario.text = "@"+nombreUsuario
-                        txtFechaNacimiento.text = jsonObtenido.get("usr_fechaNacimiento").toString()
+
+                        if(jsonObtenido.get("usr_fechaNacimiento").toString().equals("null")){
+                            txtFechaNacimiento.text = ""
+                        }else{
+                            txtFechaNacimiento.text = jsonObtenido.get("usr_fechaNacimiento").toString()
+                        }
+                        if(jsonObtenido.get("usr_descripcion").toString().equals("null")){
+                            txtDescripcion.text = "Sin descripción"
+                        }else{
+                            txtDescripcion.text = jsonObtenido.get("usr_descripcion").toString()
+                        }
+
+
                         txtSeguidores.text = "Seguidores: "+jsonObtenido.get("seguidores").toString()
                         txtEntradas.text = "Entradas totales: "+jsonObtenido.get("entradasTotales").toString()
-                        txtDescripcion.text = jsonObtenido.get("usr_descripcion").toString()
+
 
                         //verificar si se sigue al usuario
                         DAOUsuario.obtenerSeguidor(idUsuarioObtenido, idUsuarioLoggeado, this@PantallaPerfil,
@@ -121,7 +133,7 @@ class PantallaPerfil : AppCompatActivity() {
 
                     }
                 })
-                val urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario
+                val urlService = "http://expressit.ddns.net/files/media/pictures/"+nombreUsuario
                 val queue = Volley.newRequestQueue(this)
                 var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
                     imageView.setImageBitmap(bitmap)

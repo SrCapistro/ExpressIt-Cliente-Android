@@ -73,12 +73,19 @@
             android:textSize="20dp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/imageEntrada"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtHashtagsEntrada"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/txtHashtagsEntrada"
+            android:layout_below="@+id/imageEntrada"
             android:background="#DCDCDC"
             android:text="Me gusta"
             android:textStyle="bold" />
@@ -87,7 +94,7 @@
             android:id="@+id/txtContadorMeGusta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtHashtagsEntrada"
+            android:layout_below="@id/imageEntrada"
             android:layout_marginLeft="20dp"
             android:layout_toEndOf="@+id/btnLike"
             android:text="contador_megusta"

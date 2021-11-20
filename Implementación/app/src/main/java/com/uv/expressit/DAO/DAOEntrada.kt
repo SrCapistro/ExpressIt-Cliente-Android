@@ -13,7 +13,7 @@ import kotlin.collections.HashMap
 
 class DAOEntrada {
     companion object {
-        var direccion: String = "http://26.191.102.84:4000/"
+        var direccion: String = "http://expressit.ddns.net/"
         fun obtenerEntradasDeSeguidos(
             idUsuario: Long?,
             idEntrada: Long?,
@@ -33,6 +33,7 @@ class DAOEntrada {
                 Response.ErrorListener { print("Error") })
             queue.add(stringRequest)
         }
+
 
         fun obtenerHashtagEntrada(idEntrada: Long?, context: Context?, volleyCallback: VolleyCallback){
             val url = direccion+"feed/hashtags/"+idEntrada
