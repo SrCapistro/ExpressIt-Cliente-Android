@@ -180,8 +180,10 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_item_Perfil -> {
                 val pantallaPerfil = Intent(this, PantallaPerfil::class.java)
-                intent.putExtra("idUsuario", idUsuarioLogeado)
-                intent.putExtra("perfilPersonal", true)
+                pantallaPerfil.putExtra("idUsuario", idUsuarioLogeado)
+                pantallaPerfil.putExtra("tipoUsuario", tipoUsuario)
+                pantallaPerfil.putExtra("nombreUsuario", nombreUsuario)
+                pantallaPerfil.putExtra("perfilPersonal", true)
                 startActivity(pantallaPerfil)
             }
             R.id.nav_item_configuración -> {

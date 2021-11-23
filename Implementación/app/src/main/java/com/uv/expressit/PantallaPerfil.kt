@@ -5,10 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -54,8 +56,50 @@ class PantallaPerfil : AppCompatActivity() {
 
         val usuarioIdInstancia = Usuario()
         if(perfilPersonal == true){
-            //Aqui se muestran los datos del perfil personal
-            //se debe ocultar el boton de seguir
+
+            btnSeguir.setVisibility(View.INVISIBLE)
+
+            var idUsuarioObtenidoConsulta: Long? = 0
+            var nombreAux = nombreUsuario.toString()
+            nombreUsuario?.let {
+                DAOUsuario.obtenerUsuarioPorUserName(nombreAux, this, object: VolleyCallback {
+                    @SuppressLint("SetTextI18n")
+                    override fun onSuccessResponse(result: String) {
+                        var jsonObtenido = JSONObject(JSONUtils.parsearJson(result))
+                        idUsuarioObtenidoConsulta = jsonObtenido.get("usr_idUsuario").toString().toLong()
+                        println("Usuario Obtenido; $idUsuarioObtenidoConsulta")
+                        txtNombreCompleto.text = jsonObtenido.get("usr_nombre").toString()
+                        txtNombreUsuario.text = "@" + nombreUsuario
+
+                        if (jsonObtenido.get("usr_fechaNacimiento").toString().equals("null")) {
+                            txtFechaNacimiento.text = ""
+                        } else {
+                            txtFechaNacimiento.text = "Fecha de Nacimiento: " + jsonObtenido.get("usr_fechaNacimiento").toString()
+                        }
+                        if (jsonObtenido.get("usr_descripcion").toString().equals("null")) {
+                            txtDescripcion.text = "Sin descripción"
+                        } else {
+                            txtDescripcion.text = "Descripción: " + jsonObtenido.get("usr_descripcion").toString()
+                        }
+
+                        txtSeguidores.text = "Seguidores: " + jsonObtenido.get("seguidores").toString()
+                        txtEntradas.text = "Entradas totales: " + jsonObtenido.get("entradasTotales").toString()
+                    }
+                })
+                val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                val queue = Volley.newRequestQueue(this)
+                var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
+                    imageView.setImageBitmap(bitmap)
+                },0,0,null,null,
+                    {error->
+                        Toast.makeText(this, "Error al cargar la foto de perfil", Toast.LENGTH_SHORT).show()
+                    }
+                )
+                queue.add(imageRequest)
+                obtenerEntradas(idUsuario, nombreAux, recyclerView)
+            }
+
+
         }else{
             var idUsuarioObtenido: Long? = 0
             nombreUsuario?.let {
