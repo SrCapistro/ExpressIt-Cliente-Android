@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.widget.doOnTextChanged
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.uv.expressit.DAO.DAOEntrada
@@ -39,12 +40,21 @@ class RegistrarEntrada : AppCompatActivity() {
         val txtHashTagIngresado = findViewById<EditText>(R.id.txtHashTagEscrito)
         val txtHashTags = findViewById<TextView>(R.id.txtHashTags)
         val btnAgregarHashtag = findViewById<Button>(R.id.btnAgregarHashtag)
+        val txtContadorCaracteres = findViewById<TextView>(R.id.txtContadorCaracteres)
 
+        txtEntrada.doOnTextChanged { text, start, before, count ->
+            txtContadorCaracteres.text = "Cantidad de caracteres: ${text?.length.toString()}"
+        }
         btnAgregarHashtag.setOnClickListener(){
             val hashtag = txtHashTagIngresado.text.toString()
-            txtHashTags.setText("${txtHashTags.text.toString()} $hashtag,")
-            hashtags.add(hashtag)
-            println("hashtags: ${hashtags[0]}")
+            if(hashtag.substring(0,1) == "#"){
+                txtHashTags.setText("${txtHashTags.text.toString()} $hashtag,")
+                hashtags.add(hashtag)
+                println("hashtags: ${hashtags[0]}")
+            }else{
+                Toast.makeText(this, "Un hashtag debe llevar '#' al inicio", Toast.LENGTH_LONG).show()
+            }
+
         }
 
         btnSubirArchivo.setOnClickListener{
@@ -131,7 +141,7 @@ class RegistrarEntrada : AppCompatActivity() {
 
     fun subirFoto(idEntrada: Long?){
         imageData?: return
-        val url = "http://expressit.ddns.net/files/media/entradas/"+idEntrada
+        val url = "http://26.191.102.84:4000/files/media/entradas/"+idEntrada
         val request = object: VolleyFileUploadRequest(
             Method.POST, url, Response.Listener { println(it) },
             Response.ErrorListener {

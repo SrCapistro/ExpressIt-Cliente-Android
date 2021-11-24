@@ -107,7 +107,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     fun cargarImagenUsuario(imageView: ImageView, nombreUsuario: String?){
-        val urlService = "http://expressit.ddns.net/files/media/pictures/"+nombreUsuario
+        val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
         val queue = Volley.newRequestQueue(this)
         var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
             imageView.setImageBitmap(bitmap)
