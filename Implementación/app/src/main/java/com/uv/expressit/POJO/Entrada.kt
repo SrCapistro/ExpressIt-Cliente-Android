@@ -11,4 +11,5 @@ class Entrada {
     var usuarioLike: Boolean = false
     var listaHashtags: MutableList<String> = ArrayList()
     var imagen: Bitmap? = null
+    var idUsuario: Long = 0
 }

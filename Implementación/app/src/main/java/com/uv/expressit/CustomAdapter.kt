@@ -38,7 +38,9 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
     override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
         var contadorMegusta = listaEntradas[i].likesEntrada
         if(tipoUsuario.equals("Comun")){
-            viewHolder.btnBorrarEntrada.visibility = View.INVISIBLE
+            if(!(listaEntradas[i].idUsuario.equals(idUsuario))){
+                viewHolder.btnBorrarEntrada.visibility = View.INVISIBLE
+            }
         }
 
         var fechaEntrada = listaEntradas[i].fechaEntrada.replace("T", " a las: ")

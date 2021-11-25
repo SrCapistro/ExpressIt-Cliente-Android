@@ -207,6 +207,7 @@ class PantallaPerfil : AppCompatActivity() {
                         entradaRecibida.textoEntrada = entradaJson.get("ent_textEntrada").toString()
                         entradaRecibida.nombreUsuario = entradaJson.get("usr_nombreUsuario").toString()
                         entradaRecibida.likesEntrada = entradaJson.get("likes_totales").toString().toInt()
+                        entradaRecibida.idUsuario = entradaJson.get("ent_idUsuario").toString().toLong()
                         try{
                             if(entradaJson.getLong("tuLike") > -1){
                                 entradaRecibida.usuarioLike = true
