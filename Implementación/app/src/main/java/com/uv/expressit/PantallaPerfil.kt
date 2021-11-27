@@ -167,7 +167,7 @@ class PantallaPerfil : AppCompatActivity() {
                                                 btnSeguir.setTextColor(Color.WHITE)
                                             }catch(exce:Exception){
                                                 Toast.makeText(this@PantallaPerfil, "Error al seguir", Toast.LENGTH_LONG).show()
-                                                println("Error al dejar de seguir: ${exce.message}")
+                                                println("Error al seguir: ${exce.message}")
                                             }
                                         }
                                     }
