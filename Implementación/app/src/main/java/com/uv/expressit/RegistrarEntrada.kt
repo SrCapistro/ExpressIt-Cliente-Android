@@ -47,14 +47,17 @@ class RegistrarEntrada : AppCompatActivity() {
         }
         btnAgregarHashtag.setOnClickListener(){
             val hashtag = txtHashTagIngresado.text.toString()
-            if(hashtag.substring(0,1) == "#"){
-                txtHashTags.setText("${txtHashTags.text.toString()} $hashtag,")
-                hashtags.add(hashtag)
-                println("hashtags: ${hashtags[0]}")
+            if(!hashtag.isBlank()){
+                if(hashtag.substring(0,1) == "#"){
+                    txtHashTags.setText("${txtHashTags.text.toString()} $hashtag,")
+                    hashtags.add(hashtag)
+                    println("hashtags: ${hashtags[0]}")
+                }else{
+                    Toast.makeText(this, "Un hashtag debe llevar '#' al inicio", Toast.LENGTH_LONG).show()
+                }
             }else{
-                Toast.makeText(this, "Un hashtag debe llevar '#' al inicio", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Para agregar un hashtag, primero escribalo", Toast.LENGTH_LONG).show()
             }
-
         }
 
         btnSubirArchivo.setOnClickListener{
