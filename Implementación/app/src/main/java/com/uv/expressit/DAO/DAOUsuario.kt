@@ -12,6 +12,8 @@ import org.json.JSONObject
 class DAOUsuario {
     companion object{
         var direccion: String = "http://26.191.102.84:4000/"
+        //var direccion: String = "http://192.168.0.21:4000/" -> Zuriel
+
         fun obtenerLoginUsuario(nombreUsuario: String, contraseña: String, context: Context, callback: VolleyCallback){
             val urlService = direccion+"auth/login/"+nombreUsuario+"/"+contraseña
             val queue = Volley.newRequestQueue(context)
@@ -129,6 +131,108 @@ class DAOUsuario {
             queue.add(stringRequest)
         }
 
+        ///
+        //Obtiene datos de la tabla usuario
+        fun obtenerInformacionUsuario(idUsuarioInt: Int, context: Context, callback: VolleyCallback
+        ){
+            val urlService = direccion+"users/datos/usuario/"+idUsuarioInt
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+        //verifica si un usuario tiene fotos de perfil
+        fun obtenerNumeroDeImagenes(idUsuarioInt: Int, context: Context, callback: VolleyCallback
+        ){
+            val urlService = direccion+"files/media/existeFoto/"+idUsuarioInt
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+        //Verifica si al modificar un usuario existe otro con el mismo usuario
+        fun existeUsuarioRepetido(idUsuarioInt: Int, nombreUsuario: String, context: Context, callback: VolleyCallback
+        ){
+            val urlService = direccion+"users/obtenerUsuario/"+idUsuarioInt+"/"+nombreUsuario
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+        //Modifica los datos del usuario
+        fun modificarUsuario(idUsuario: Int ,nombreUsuario:String, descripcion:String, nombreCompleto:String,
+                             correo:String, contra:String, nacimiento:String, context: Context){
+
+            val url = direccion +"users/actualizarUsuario/"
+            val parametros = HashMap<String, String>()
+            parametros["usr_idUsuario"] = idUsuario.toString()
+            parametros["usr_nombreUsuario"] = nombreUsuario
+            parametros["usr_descripcion"] = descripcion
+            parametros["usr_nombre"] = nombreCompleto
+            parametros["usr_correo"] = correo
+            parametros["usr_contraseña"] = contra
+            parametros["usr_fechaNacimiento"] = nacimiento
+
+            val jsonObject = JSONObject(parametros as Map<*, *>)
+
+            val request = JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                Response.Listener { response ->
+                    println("Éxito: ${response}")
+                }, Response.ErrorListener {
+                    println("Error: ${it}")
+                })
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+        }
+
+        fun eliminarFotoPerfil(idUsuarioInt: Int, context: Context, callback: VolleyCallback
+        ){
+            val urlService = direccion+"users/eliminarFotoPerfil/"+idUsuarioInt
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.DELETE,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+        //Dar de Baja usuario
+        fun darDeBajaUsuario(idUsuario: Int, context: Context){
+
+            val url = direccion +"users/DarDeBajaUsuario"
+            val baja = 0
+            val parametros = HashMap<String, String>()
+            parametros["usr_idUsuario"] = idUsuario.toString()
+            parametros["usr_estado"] = baja.toString()
+
+            val jsonObject = JSONObject(parametros as Map<*, *>)
+
+            val request = JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                Response.Listener { response ->
+                    println("Éxito: ${response}")
+                }, Response.ErrorListener {
+                    println("Error: ${it}")
+                })
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+        }
 
     }
 }

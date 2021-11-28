@@ -87,13 +87,16 @@ class PantallaPerfil : AppCompatActivity() {
                     }
                 })
                 val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario -> Zuriel
                 val queue = Volley.newRequestQueue(this)
+
                 var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
                     imageView.setImageBitmap(bitmap)
                 },0,0,null,null,
                     {error->
                         Toast.makeText(this, "Error al cargar la foto de perfil", Toast.LENGTH_SHORT).show()
                     }
+
                 )
                 queue.add(imageRequest)
                 obtenerEntradas(idUsuario, nombreAux, recyclerView)
