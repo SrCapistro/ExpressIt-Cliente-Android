@@ -31,6 +31,7 @@ class ModificarUsuario : AppCompatActivity() {
     private var idUsuarioInt: Int = -1
     lateinit var imageView: ImageView
     private var imageData: ByteArray? = null
+    private var cadenaUrl: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modificar_usuario)
@@ -146,7 +147,7 @@ class ModificarUsuario : AppCompatActivity() {
             val correo = txtCorreo.text.toString()
             val nacimiento = fechaNac.text.toString()
             val nombreUsuario = txtNombreUsuario.text.toString()
-            val contraUno = txtContraUno.text.toString()
+            var contraUno = txtContraUno.text.toString()
             val contraDos = txtContraDos.text.toString()
             val descripcion = txtDescripcion.text.toString()
 
@@ -170,33 +171,41 @@ class ModificarUsuario : AppCompatActivity() {
                                         Toast.makeText(this@ModificarUsuario, "No puede dejar el campo 'Fecha de Nacimiento' vacio!!!", Toast.LENGTH_SHORT).show()
                                     } else if(correo.isEmpty()){
                                         Toast.makeText(this@ModificarUsuario, "No puede dejar el campo 'Correo Electronico' vacio!!!", Toast.LENGTH_SHORT).show()
-                                    } else if(contraUno.isEmpty() || contraDos.isEmpty() ){
-                                        Toast.makeText(this@ModificarUsuario, "Alguno de los campos de contraseña esta vacio. Verifique!!!", Toast.LENGTH_SHORT).show()
                                     } else if(!(contraUno.equals(contraDos))){
-                                        val txtPrimeraContra = findViewById<EditText>(R.id.txtContraseñaUnoModificar)
-                                        val txtSegundaContra = findViewById<EditText>(R.id.txtContraseñaDosModificar)
-                                        txtPrimeraContra.setText("")
-                                        txtSegundaContra.setText("")
+                                            val txtPrimeraContra = findViewById<EditText>(R.id.txtContraseñaUnoModificar)
+                                            val txtSegundaContra = findViewById<EditText>(R.id.txtContraseñaDosModificar)
+                                            txtPrimeraContra.setText("")
+                                            txtSegundaContra.setText("")
 
-                                        Toast.makeText(this@ModificarUsuario, "La contraseña debe coincidir!!!", Toast.LENGTH_SHORT).show()
-                                    }else{
+                                            Toast.makeText(this@ModificarUsuario, "La contraseña debe coincidir!!!", Toast.LENGTH_SHORT).show()
+                                    } else{
                                         try{
+
+                                            if(contraUno.isEmpty()){
+                                                contraUno = contrasenia
+                                            }
+                                            println("contraseñaVacia; $contraUno")
                                             DAOUsuario.modificarUsuario(idUsuarioInt,nombreUsuario, descripcion, nombreCompleto, correo, contraUno, nacimiento, this@ModificarUsuario)
                                             Toast.makeText(this@ModificarUsuario, "Cuenta modificada exitosamente!", Toast.LENGTH_SHORT).show()
+                                            if(!cadenaUrl.equals("")){
+                                                DAOUsuario.eliminarFotoPerfil(idUsuarioInt, this@ModificarUsuario,object: VolleyCallback{
+                                                    override fun onSuccessResponse(result: String) {
+                                                        var jsonObtenido = JSONObject(JSONUtils.parsearJson(result))
 
-                                            DAOUsuario.eliminarFotoPerfil(idUsuarioInt, this@ModificarUsuario,object: VolleyCallback{
-                                                override fun onSuccessResponse(result: String) {
-                                                    var jsonObtenido = JSONObject(JSONUtils.parsearJson(result))
+                                                        var numero: Int = jsonObtenido.get("respuesta").toString().toInt()
 
-                                                    var numero: Int = jsonObtenido.get("respuesta").toString().toInt()
+                                                        println("eliminacionFotoPerfil; $numero")
+                                                        Thread.sleep(500)
 
-                                                    println("eliminacionFotoPerfil; $numero")
-
-                                                    if(numero == 200){
-                                                        subirFotoPerfil(idUsuarioInt)
+                                                         if(numero == 200){
+                                                            subirFotoPerfil(idUsuarioInt)
+                                                         }else{
+                                                            subirFotoPerfil(idUsuarioInt)
+                                                         }
                                                     }
-                                                }
-                                            })
+
+                                                })
+                                            }
 
                                         } catch(e: Exception){
                                             Toast.makeText(this@ModificarUsuario, "Ocurrio un error al modificar. Intente más tarde", Toast.LENGTH_SHORT).show()
@@ -215,15 +224,17 @@ class ModificarUsuario : AppCompatActivity() {
                 .show()
         }
     }
-    ///////////////////////////////////////////////////////////
-    //////////////// No jala el subir la imagen////////////////
-    ///////////////////////////////////////////////////////////
     fun subirFotoPerfil(idUsuario: Int) {
-        val url = "http://26.191.102.84::4000/files/subirImagen/"+idUsuario
-        //val url = "http://192.168.0.21:4000/files/subirImagen/"+idUsuario -> Zuriel
+        imageData?: return
+
+        var format = validarFormato(cadenaUrl);
+
+        val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format
+        //val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format  //-> Zuriel
 
         println("eliminacionFotoPerfil; $idUsuario")
-        imageData?: return
+        println("FomatoSubido; $format")
+
         val request = object : VolleyFileUploadRequest(Method.POST, url, Response.Listener {
                 println("response is: $it")
             },
@@ -233,12 +244,14 @@ class ModificarUsuario : AppCompatActivity() {
         ) {
             override fun getByteData(): MutableMap<String, FileDataPart> {
                 var params = HashMap<String, FileDataPart>()
-                params["imageFile"] = FileDataPart("image", imageData!!, "jpeg")
+                params["imgFile"] = FileDataPart("imgFile", imageData!!, "jpeg")
+                params["format"] =
                 return params
             }
         }
         Volley.newRequestQueue(this).add(request)
     }
+
     fun crearDatosDeImagen(uri: Uri) {
         val inputStream = contentResolver.openInputStream(uri)
         inputStream?.buffered()?.use {
@@ -250,6 +263,8 @@ class ModificarUsuario : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             val uri = data?.data
+            cadenaUrl = uri.toString()
+            println("eliminacionFotoPerfil; $cadenaUrl")
             if (uri != null) {
                 imageView.setImageURI(uri)
                 crearDatosDeImagen(uri)
@@ -282,5 +297,29 @@ class ModificarUsuario : AppCompatActivity() {
             }
         )
         queue.add(imageRequest)
+    }
+
+    fun validarFormato(cadena: String): String{
+        var formato = ""
+
+        if(cadena.contains("jpeg", ignoreCase = true)){
+            formato = "jpeg"
+        }
+        if(cadena.contains("jpg", ignoreCase = true)){
+            formato = "jpg"
+        }
+        if(cadena.contains("png", ignoreCase = true)){
+            formato = "png"
+        }
+        if(cadena.contains("bmp", ignoreCase = true)){
+            formato = "bmp"
+        }
+        if(cadena.contains("gif", ignoreCase = true)){
+            formato = "gif"
+        }
+        if(cadena.contains("svg", ignoreCase = true)){
+            formato = "svg"
+        }
+        return formato;
     }
 }

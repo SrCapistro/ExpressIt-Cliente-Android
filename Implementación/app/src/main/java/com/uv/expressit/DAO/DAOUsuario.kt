@@ -12,7 +12,7 @@ import org.json.JSONObject
 class DAOUsuario {
     companion object{
         var direccion: String = "http://26.191.102.84:4000/"
-        //var direccion: String = "http://192.168.0.21:4000/" -> Zuriel
+        //var direccion: String = "http://192.168.0.21:4000/" //-> Zuriel
 
         fun obtenerLoginUsuario(nombreUsuario: String, contraseña: String, context: Context, callback: VolleyCallback){
             val urlService = direccion+"auth/login/"+nombreUsuario+"/"+contraseña
