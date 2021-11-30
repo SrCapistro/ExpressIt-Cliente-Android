@@ -65,6 +65,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
         cargarImagenUsuario(imageView, nombreUsuario)
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
+
         val recyclerView = findViewById<RecyclerView>(R.id.vistaEntradas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -107,7 +108,9 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     fun cargarImagenUsuario(imageView: ImageView, nombreUsuario: String?){
-        val urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario
+        val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+        //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario  //-> Zuriel
+
         val queue = Volley.newRequestQueue(this)
         var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
             imageView.setImageBitmap(bitmap)
@@ -176,16 +179,23 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
 
             R.id.nav_item_buscar ->{
-                println("Buscar")
+                val pantallaBuscar = Intent(this, BuscarUsuarioHashtag::class.java)
+                pantallaBuscar.putExtra("idUsuario", idUsuarioLogeado)
+                pantallaBuscar.putExtra("tipoUsuario", tipoUsuario)
+                startActivity(pantallaBuscar)
             }
             R.id.nav_item_Perfil -> {
                 val pantallaPerfil = Intent(this, PantallaPerfil::class.java)
-                intent.putExtra("idUsuario", idUsuarioLogeado)
-                intent.putExtra("perfilPersonal", true)
+                pantallaPerfil.putExtra("idUsuario", idUsuarioLogeado)
+                pantallaPerfil.putExtra("tipoUsuario", tipoUsuario)
+                pantallaPerfil.putExtra("nombreUsuario", nombreUsuario)
+                pantallaPerfil.putExtra("perfilPersonal", true)
                 startActivity(pantallaPerfil)
             }
             R.id.nav_item_configuración -> {
-                //Aquí va el codigo para configurar el perfil, osea editarlo
+                val pantallaEditarUsuario = Intent(this, ModificarUsuario::class.java)
+                pantallaEditarUsuario.putExtra("idUsuario", idUsuarioLogeado)
+                startActivity(pantallaEditarUsuario)
             }
             R.id.nav_item_CerrarSesion -> {
                 this.finish()

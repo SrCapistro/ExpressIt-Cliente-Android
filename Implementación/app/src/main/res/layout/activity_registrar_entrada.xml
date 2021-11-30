@@ -7,118 +7,135 @@
     android:background="#0D0D0D"
     tools:context=".RegistrarEntrada">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Publicar Entrada"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/txtEntrada"
-            android:layout_width="match_parent"
-            android:layout_height="177dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginRight="20dp"
-            android:background="#1E1E1E"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Entrada"
-            android:inputType="textMultiLine"
-            android:textColor="#90FDF4"
-            android:textColorHint="#FFFFFF"
-            android:textColorLink="#00BCD4"
-            android:textSize="24sp"
-            tools:textColor="#00BCD4" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Hashtags:"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/txtHashTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textColor="#2196F3"
-            android:textSize="18sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/txtHashTagEscrito"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Publicar Entrada"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtContadorCaracteres"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
+                android:layout_marginTop="70dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#009688"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/txtEntrada"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:background="#1E1E1E"
                 android:ems="10"
-                android:hint="#Hashtag"
-                android:inputType="textPersonName"
-                android:textColor="#00BCD4"
+                android:gravity="start|top"
+                android:hint="Entrada"
+                android:inputType="textMultiLine"
+                android:textColor="#90FDF4"
                 android:textColorHint="#FFFFFF"
-                android:textColorLink="#00BCD4" />
+                android:textColorLink="#00BCD4"
+                android:textSize="24sp"
+                tools:textColor="#00BCD4"
+                android:maxLength="280"/>
 
-            <Button
-                android:id="@+id/btnAgregarHashtag"
-                android:layout_width="5dp"
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:text="+" />
+                android:text="Hashtags:"
+                android:textColor="#FFFFFF" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/txtHashTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#2196F3"
+                android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/entradaFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btnAñadirArchivo"
+                <EditText
+                    android:id="@+id/txtHashTagEscrito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="#1E1E1E"
+                    android:ems="10"
+                    android:maxLength="30"
+                    android:hint="#Hashtag"
+                    android:inputType="textPersonName"
+                    android:textColor="#00BCD4"
+                    android:textColorHint="#FFFFFF"
+                    android:textColorLink="#00BCD4" />
+
+                <Button
+                    android:id="@+id/btnAgregarHashtag"
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="+" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/entradaFoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="Subir archivo"
-                android:layout_weight="0.5"
-                />
+                android:layout_gravity="center" />
 
-            <Button
-                android:id="@+id/btnPublicar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="Publicar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAñadirArchivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:text="Subir archivo" />
+
+                <Button
+                    android:id="@+id/btnPublicar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:text="Publicar" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

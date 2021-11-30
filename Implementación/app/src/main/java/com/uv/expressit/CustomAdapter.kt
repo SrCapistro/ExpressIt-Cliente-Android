@@ -38,7 +38,9 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
     override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") i: Int) {
         var contadorMegusta = listaEntradas[i].likesEntrada
         if(tipoUsuario.equals("Comun")){
-            viewHolder.btnBorrarEntrada.visibility = View.INVISIBLE
+            if(!(listaEntradas[i].idUsuario.equals(idUsuario))){
+                viewHolder.btnBorrarEntrada.visibility = View.INVISIBLE
+            }
         }
 
         var fechaEntrada = listaEntradas[i].fechaEntrada.replace("T", " a las: ")
@@ -127,7 +129,8 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
         }
 
 
-        val urlService = "http://192.168.100.4:4000/files/media/"+listaEntradas[i].idEntrada
+        val urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada
+        //val urlService = "http://192.168.0.21:4000/files/media/"+listaEntradas[i].idEntrada  // -> Zuriel
         val queue = Volley.newRequestQueue(context)
         var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
             viewHolder.imagenEntrada.setImageBitmap(bitmap)
