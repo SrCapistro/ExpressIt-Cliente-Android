@@ -177,7 +177,6 @@ class RegistrarEntrada : AppCompatActivity() {
                         var entradaRegistrada = JSONObject(JSONUtils.parsearJson(result))
                         var entradaRecibida = Entrada()
                         entradaRecibida.idEntrada = entradaRegistrada.get("ent_idEntrada").toString().toLong()
-                        println("Entrada recibida: ${entradaRecibida.idEntrada}")
                         try{
                             DAOEntrada.obtenerUltimoIdHashtagRegistrado(this@RegistrarEntrada,
                                 object : VolleyCallback{
