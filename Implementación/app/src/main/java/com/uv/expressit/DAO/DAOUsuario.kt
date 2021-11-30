@@ -234,5 +234,19 @@ class DAOUsuario {
             queue.add(request)
         }
 
+        fun obtenerUsuariosBuscador(context: Context,callback: VolleyCallback
+        ){
+            val urlService = direccion+"users/datos/todos"
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(
+                Request.Method.GET,urlService, Response.Listener<String> {
+                        response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+
     }
 }

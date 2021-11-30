@@ -65,6 +65,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
         cargarImagenUsuario(imageView, nombreUsuario)
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
+
         val recyclerView = findViewById<RecyclerView>(R.id.vistaEntradas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -178,7 +179,10 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
 
             R.id.nav_item_buscar ->{
-                println("Buscar")
+                val pantallaBuscar = Intent(this, BuscarUsuarioHashtag::class.java)
+                pantallaBuscar.putExtra("idUsuario", idUsuarioLogeado)
+                pantallaBuscar.putExtra("tipoUsuario", tipoUsuario)
+                startActivity(pantallaBuscar)
             }
             R.id.nav_item_Perfil -> {
                 val pantallaPerfil = Intent(this, PantallaPerfil::class.java)

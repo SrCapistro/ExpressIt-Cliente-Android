@@ -130,6 +130,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
 
         val urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada
+        //val urlService = "http://192.168.0.21:4000/files/media/"+listaEntradas[i].idEntrada  // -> Zuriel
         val queue = Volley.newRequestQueue(context)
         var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
             viewHolder.imagenEntrada.setImageBitmap(bitmap)

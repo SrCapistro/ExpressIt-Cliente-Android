@@ -285,7 +285,7 @@ class ModificarUsuario : AppCompatActivity() {
     }
     fun cargarImagenUsuario(imageView: ImageView, idUsuarioInt: Int){
         val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+idUsuarioInt
-        //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+idUsuarioInt -> Zuriel
+        //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+idUsuarioInt //-> Zuriel
         println("Usuario Obtenido; $idUsuarioInt")
 
         val queue = Volley.newRequestQueue(this)

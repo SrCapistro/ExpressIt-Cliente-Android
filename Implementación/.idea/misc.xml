@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_buscar_usuario_hashtag.xml" value="0.25" />
         <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_modificar_usuario.xml" value="0.25" />
         <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_pantalla_perfil.xml" value="0.20416666666666666" />
+        <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_pantalla_principal.xml" value="0.1" />
         <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_registrar_entrada.xml" value="0.1" />
         <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_registrar_usuario.xml" value="0.20416666666666666" />
+        <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/app_bar_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/card_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/lista_usuarios.xml" value="0.25" />
         <entry key="..\:/TuiterAPPS/ExpressIt-Cliente-Android/Implementación/app/src/main/res/menu/activity_main_drawer.xml" value="0.1515625" />
         <entry key="..\:/Users/brand/Documents/UVDocs/7mosemestre/DesarrolloDeApps/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/brand/Documents/UVDocs/7mosemestre/DesarrolloDeApps/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_pantalla_perfil.xml" value="0.264" />
