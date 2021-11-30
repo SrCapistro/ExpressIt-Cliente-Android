@@ -52,6 +52,7 @@ class PantallaPerfil : AppCompatActivity() {
         idUsuario = bundle?.getLong("idUsuario")
         var idUsuarioLoggeado: Long? = bundle?.getLong("idUsuario")
 
+        println(perfilPersonal)
         val usuarioIdInstancia = Usuario()
         if(perfilPersonal == true){
             //Aqui se muestran los datos del perfil personal
@@ -133,7 +134,7 @@ class PantallaPerfil : AppCompatActivity() {
 
                     }
                 })
-                val urlService = "http://expressit.ddns.net/files/media/pictures/"+nombreUsuario
+                val urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario
                 val queue = Volley.newRequestQueue(this)
                 var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
                     imageView.setImageBitmap(bitmap)
