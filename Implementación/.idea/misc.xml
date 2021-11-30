@@ -23,6 +23,7 @@
         <entry key="..\:/Users/mario/AndroidStudioProjects/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/mario/AndroidStudioProjects/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_pantalla_principal.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/mario/AndroidStudioProjects/ExpressIt-Cliente-Android/Implementación/app/src/main/res/layout/activity_registrar_usuario.xml" value="0.20416666666666666" />
+        <entry key="app/src/main/res/layout/activity_buscar_usuario_hashtag.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_pantalla_perfil.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/activity_pantalla_principal.xml" value="0.25" />
@@ -33,6 +34,7 @@
         <entry key="app/src/main/res/layout/fragment_perfil.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.3567708333333333" />
         <entry key="app/src/main/res/layout/fragment_third.xml" value="0.3567708333333333" />
+        <entry key="app/src/main/res/layout/lista_usuarios.xml" value="0.33" />
         <entry key="app/src/main/res/layout/mav_header_main.xml" value="0.3567708333333333" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.3567708333333333" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.3567708333333333" />

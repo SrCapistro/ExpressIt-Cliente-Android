@@ -43,6 +43,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             }
         }
 
+
         var fechaEntrada = listaEntradas[i].fechaEntrada.replace("T", " a las: ")
         fechaEntrada = fechaEntrada.replace("Z", "")
 
@@ -128,8 +129,8 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
         }
 
-
-        val urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada
+        var urlService = "http://192.168.100.4:4000/files/media/"+listaEntradas[i].idEntrada // -> Capi
+        //val urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada
         //val urlService = "http://192.168.0.21:4000/files/media/"+listaEntradas[i].idEntrada  // -> Zuriel
         val queue = Volley.newRequestQueue(context)
         var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->

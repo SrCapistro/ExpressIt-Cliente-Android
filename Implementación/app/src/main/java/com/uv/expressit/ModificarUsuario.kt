@@ -229,7 +229,8 @@ class ModificarUsuario : AppCompatActivity() {
 
         var format = validarFormato(cadenaUrl);
 
-        val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format
+        var url = "http://192.168.100.4:4000/files/media/usuarios/"+idUsuario+"/"+format // -> Capi
+        //val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format
         //val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format  //-> Zuriel
 
         println("eliminacionFotoPerfil; $idUsuario")
@@ -284,7 +285,8 @@ class ModificarUsuario : AppCompatActivity() {
         fechaNac.setText("$day/$mesAux/$year")
     }
     fun cargarImagenUsuario(imageView: ImageView, idUsuarioInt: Int){
-        val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+idUsuarioInt
+        var urlService = "http://192.168.100.4:4000/files/media/usuarios/profile_pictures/"+idUsuarioInt // -> Capi
+        //val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+idUsuarioInt
         //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+idUsuarioInt //-> Zuriel
         println("Usuario Obtenido; $idUsuarioInt")
 

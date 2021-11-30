@@ -144,7 +144,8 @@ class RegistrarEntrada : AppCompatActivity() {
 
     fun subirFoto(idEntrada: Long?){
         imageData?: return
-        val url = "http://26.191.102.84:4000/files/media/entradas/"+idEntrada
+        var url = "http://192.168.100.4:4000/files/media/entradas/"+idEntrada // -> Capi
+        //val url = "http://26.191.102.84:4000/files/media/entradas/"+idEntrada
         val request = object: VolleyFileUploadRequest(
             Method.POST, url, Response.Listener { println(it) },
             Response.ErrorListener {

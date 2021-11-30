@@ -54,7 +54,10 @@ class PantallaPerfil : AppCompatActivity() {
         idUsuario = bundle?.getLong("idUsuario")
         var idUsuarioLoggeado: Long? = bundle?.getLong("idUsuario")
 
-        println(perfilPersonal)
+
+
+
+
         val usuarioIdInstancia = Usuario()
         if(perfilPersonal == true){
 
@@ -87,7 +90,8 @@ class PantallaPerfil : AppCompatActivity() {
                         txtEntradas.text = "Entradas totales: " + jsonObtenido.get("entradasTotales").toString()
                     }
                 })
-                val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
+                //val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
                 //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario //-> Zuriel
                 val queue = Volley.newRequestQueue(this)
 
@@ -131,6 +135,9 @@ class PantallaPerfil : AppCompatActivity() {
                         txtSeguidores.text = "Seguidores: "+jsonObtenido.get("seguidores").toString()
                         txtEntradas.text = "Entradas totales: "+jsonObtenido.get("entradasTotales").toString()
 
+                        if(idUsuarioLoggeado == idUsuarioObtenido){
+                            btnSeguir.visibility = View.INVISIBLE
+                        }
 
                         //verificar si se sigue al usuario
                         DAOUsuario.obtenerSeguidor(idUsuarioObtenido, idUsuarioLoggeado, this@PantallaPerfil,
@@ -180,7 +187,8 @@ class PantallaPerfil : AppCompatActivity() {
                             })
                     }
                 })
-                val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
+                //val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
                 //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario //-> Zuriel
                 val queue = Volley.newRequestQueue(this)
                 var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->

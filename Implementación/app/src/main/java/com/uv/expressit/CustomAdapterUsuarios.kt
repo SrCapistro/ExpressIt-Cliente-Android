@@ -35,7 +35,7 @@ class CustomAdapterUsuarios(): RecyclerView.Adapter<CustomAdapterUsuarios.ViewHo
     override fun onBindViewHolder(viewHolder: CustomAdapterUsuarios.ViewHolder, @SuppressLint("RecyclerView") i: Int){
         viewHolder.nombreUsuario.setText(listaUsuarios[i].nombreUsuario)
         viewHolder.nombrecompleto.setText(listaUsuarios[i].nombreCompletoUsuario)
-        var idUsuarioLista: Int = (listaUsuarios[i].idUsuario) as Int
+        var idUsuarioLista: Int = (listaUsuarios[i].idUsuario.toInt())
 
         DAOUsuario.obtenerNumeroDeImagenes( idUsuarioLista, context!!, object: VolleyCallback {
             override fun onSuccessResponse(result: String) {
@@ -43,7 +43,8 @@ class CustomAdapterUsuarios(): RecyclerView.Adapter<CustomAdapterUsuarios.ViewHo
                 var numero: Int = jsonObtenido.get("numeroFoto").toString().toInt()
 
                 if( numero > 0){
-                    val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario
+                    val urlService = "http://192.168.100.4:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario
+                    //val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario
                     //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario //-> Zuriel
 
                     val queue = Volley.newRequestQueue(context)

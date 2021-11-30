@@ -1,8 +1,10 @@
 package com.uv.expressit
 
 import android.content.Context
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.RadioButton
 import android.widget.SearchView
 import android.widget.Toast
@@ -32,6 +34,7 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
         setContentView(R.layout.activity_buscar_usuario_hashtag)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvUsuarios)
+        val recyclerViewHashtag = findViewById<RecyclerView>(R.id.rvHashtag)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val bundle = intent.extras
@@ -70,12 +73,22 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
 
                             if(encontroUsuario || encontroNombre){
                                 usuariosTuiterAuxiliar.add(usuariosTuiter[i])
+
                             }
                         }
                         if(usuariosTuiterAuxiliar.size > 0) {
                             ////////////////////////No jala el filtro :V
-                            cargarListaUsuarios(valorLong, idUsuarioInt, recyclerView)
+                            //cargarListaUsuarios(valorLong, idUsuarioInt, recyclerView)
 
+                            val adapter = CustomAdapterUsuarios()
+                            adapter.context = this@BuscarUsuarioHashtag
+                            adapter.idUsuarioLong = valorLong
+                            adapter.idUsuarioInt = idUsuarioInt
+                            adapter.listaUsuarios = usuariosTuiterAuxiliar
+
+                            println("Usuario encontrado de el coustomer; ${adapter.idUsuarioLong}")
+
+                            recyclerView.adapter = adapter
                         }else{
                             Toast.makeText(this@BuscarUsuarioHashtag, "No se encontraron resultados", Toast.LENGTH_LONG).show()
                         }
