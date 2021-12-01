@@ -90,8 +90,8 @@ class PantallaPerfil : AppCompatActivity() {
                         txtEntradas.text = "Entradas totales: " + jsonObtenido.get("entradasTotales").toString()
                     }
                 })
-                var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
-                //val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                //var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
+                var urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario // -> Brandon
                 //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario //-> Zuriel
                 val queue = Volley.newRequestQueue(this)
 
@@ -187,8 +187,8 @@ class PantallaPerfil : AppCompatActivity() {
                             })
                     }
                 })
-                var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
-                //val urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario
+                //var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
+                var urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario // -> Brandon
                 //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario //-> Zuriel
                 val queue = Volley.newRequestQueue(this)
                 var imageRequest = ImageRequest(urlService, Response.Listener<Bitmap>{ bitmap ->
