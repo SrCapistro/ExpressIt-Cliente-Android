@@ -13,8 +13,8 @@ import kotlin.collections.HashMap
 
 class DAOEntrada {
     companion object {
-        //var direccion: String = "http://26.191.102.84:4000/"
-        var direccion: String = "http://192.168.100.4:4000/" // -> Capi
+        var direccion: String = "http://26.191.102.84:4000/"
+        //var direccion: String = "http://192.168.100.4:4000/" // -> Capi
         //var direccion: String = "http://192.168.0.21:4000/" //-> Zuriel
 
         fun obtenerEntradasDeSeguidos(
@@ -253,6 +253,16 @@ class DAOEntrada {
                 Response.ErrorListener {
                     println("Error al borrar hashtag: $it")
                 })
+            queue.add(stringRequest)
+        }
+
+        fun obtenerEntradasHashtag(hashtagEntrada: String, context: Context?, volleyCallback: VolleyCallback){
+            val url = direccion+"feed/busqueda/hashtag/"+hashtagEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(Request.Method.GET, url, Response.Listener<String>{ response ->
+                volleyCallback.onSuccessResponse(response)
+                return@Listener
+            }, Response.ErrorListener { print("Error") })
             queue.add(stringRequest)
         }
 
