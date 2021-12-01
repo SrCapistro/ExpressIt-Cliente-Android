@@ -256,5 +256,15 @@ class DAOEntrada {
             queue.add(stringRequest)
         }
 
+        fun obtenerEntradasHashtag(hashtagEntrada: String, context: Context?, volleyCallback: VolleyCallback){
+            val url = direccion+"feed/busqueda/hashtag/"+hashtagEntrada
+            val queue = Volley.newRequestQueue(context)
+            val stringRequest = StringRequest(Request.Method.GET, url, Response.Listener<String>{ response ->
+                volleyCallback.onSuccessResponse(response)
+                return@Listener
+            }, Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+
     }
 }

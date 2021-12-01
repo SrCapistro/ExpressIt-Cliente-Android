@@ -14,9 +14,11 @@ import com.uv.expressit.DAO.DAOEntrada
 import com.uv.expressit.DAO.DAOUsuario
 import com.uv.expressit.DAO.JSONUtils
 import com.uv.expressit.Interfaces.VolleyCallback
+import com.uv.expressit.POJO.Entrada
 import com.uv.expressit.POJO.Usuario
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.Exception
 
 class BuscarUsuarioHashtag : AppCompatActivity() {
 
@@ -28,13 +30,13 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
     private var valorLong: Long = 0
     var usuariosTuiter: MutableList<Usuario> = ArrayList()
     var usuariosTuiterAuxiliar: MutableList<Usuario> = ArrayList()
+    var listaEntradasBD: MutableList<Entrada> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buscar_usuario_hashtag)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvUsuarios)
-        val recyclerViewHashtag = findViewById<RecyclerView>(R.id.rvHashtag)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val bundle = intent.extras
@@ -60,6 +62,9 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
 
         buscarInformacion.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                usuariosTuiterAuxiliar.clear()
+                listaEntradasBD.clear()
+                recyclerView.removeAllViewsInLayout()
 
                 if (query != null) {
                     cadenaString = query
@@ -77,8 +82,6 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
                             }
                         }
                         if(usuariosTuiterAuxiliar.size > 0) {
-                            ////////////////////////No jala el filtro :V
-                            //cargarListaUsuarios(valorLong, idUsuarioInt, recyclerView)
 
                             val adapter = CustomAdapterUsuarios()
                             adapter.context = this@BuscarUsuarioHashtag
@@ -95,9 +98,56 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
                     }
                     if(buscarHastag.isChecked){
 
-                        if(!cadenaString[0].equals("#")){
-                            //buscar por hashtag
+                        if(cadenaString[0].equals('#')){
 
+                            var cadenaStringAuxiliar = cadenaString.subSequence(1,cadenaString.length)
+                            var hashtagBuscado = cadenaStringAuxiliar as String
+
+                            DAOEntrada.obtenerEntradasHashtag(hashtagBuscado, this@BuscarUsuarioHashtag, object: VolleyCallback{
+                                override fun onSuccessResponse(result: String) {
+                                    val jsonArray = JSONArray(result)
+                                    for (i in 0 until jsonArray.length()){
+                                        var listaEntradasJson = jsonArray.getJSONObject(i)
+
+                                        var entradaRecibida = Entrada()
+
+                                        var idEntrada = listaEntradasJson.get("ent_idEntrada").toString()
+
+                                        if(!idEntrada.equals("null")){
+
+                                            entradaRecibida.idEntrada = listaEntradasJson.get("ent_idEntrada").toString().toLong()
+                                            entradaRecibida.fechaEntrada = listaEntradasJson.get("ent_fechaEntrada").toString()
+                                            entradaRecibida.textoEntrada = listaEntradasJson.get("ent_textEntrada").toString()
+                                            entradaRecibida.idUsuario = listaEntradasJson.get("ent_idUsuario").toString().toLong()
+                                            entradaRecibida.nombreUsuario = listaEntradasJson.get("usr_nombreUsuario").toString()
+                                            entradaRecibida.likesEntrada = listaEntradasJson.get("ent_idUsuario").toString().toInt()
+                                            entradaRecibida.hashtagEntrada = listaEntradasJson.get("htg_nombre").toString()
+
+                                            try{
+                                                if(listaEntradasJson.getLong("tu_Like") > -1){
+                                                    entradaRecibida.usuarioLike = true
+                                                }
+                                            }catch (exception: Exception){
+                                                entradaRecibida.usuarioLike = false
+                                            }
+
+                                            listaEntradasBD.add(entradaRecibida)
+                                        }
+
+                                    }
+                                    if(listaEntradasBD.size > 0){
+                                        val adapter = CustomAdapterHashtag()
+                                        adapter.idUsuario = valorLong
+                                        adapter.listaEntradas = listaEntradasBD
+                                        adapter.context = this@BuscarUsuarioHashtag
+                                        adapter.tipoUsuario = tipoUsuario.toString()
+
+                                        recyclerView.adapter = adapter
+                                    }else{
+                                        Toast.makeText(this@BuscarUsuarioHashtag, "No se encontro el Hashtag", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            })
                         }else{
                             Toast.makeText(this@BuscarUsuarioHashtag, "Lo que escribio no es un Hashtag", Toast.LENGTH_LONG).show()
                         }
@@ -134,6 +184,7 @@ class BuscarUsuarioHashtag : AppCompatActivity() {
         })
         return  listaUsuarios
     }
+
     fun cargarListaUsuarios( idUsuarioLong: Long, idUsuarioInt: Int, vistaRecycler: RecyclerView?){
         val adapter = CustomAdapterUsuarios()
         adapter.context = this

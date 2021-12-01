@@ -20,11 +20,11 @@
 
         <SearchView
             android:id="@+id/svBuscar"
-             android:layout_width="260dp"
+            android:layout_width="260dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
-            android:background="#E7E4EC" />
+            android:background="#00749E" />
 
         <RadioGroup
             android:layout_width="100dp"
@@ -38,13 +38,15 @@
                 android:layout_height="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="Usuario"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck"
+                tools:textSize="15dp" />
 
             <RadioButton
                 android:id="@+id/rbHashtag"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="Hashtag"
+                android:textSize="15dp"
                 tools:ignore="TouchTargetSizeCheck" />
         </RadioGroup>
     </LinearLayout>

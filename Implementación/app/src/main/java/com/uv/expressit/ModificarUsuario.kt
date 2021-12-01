@@ -186,7 +186,7 @@ class ModificarUsuario : AppCompatActivity() {
                                             }
                                             println("contraseñaVacia; $contraUno")
                                             DAOUsuario.modificarUsuario(idUsuarioInt,nombreUsuario, descripcion, nombreCompleto, correo, contraUno, nacimiento, this@ModificarUsuario)
-                                            Toast.makeText(this@ModificarUsuario, "Cuenta modificada exitosamente!", Toast.LENGTH_SHORT).show()
+
                                             if(!cadenaUrl.equals("")){
                                                 DAOUsuario.eliminarFotoPerfil(idUsuarioInt, this@ModificarUsuario,object: VolleyCallback{
                                                     override fun onSuccessResponse(result: String) {
@@ -216,6 +216,14 @@ class ModificarUsuario : AppCompatActivity() {
                                 }
                             }
                         })
+                        if(!contraUno.isEmpty() && !contraDos.isEmpty()){
+                            val inicioSesion = Intent(this, MainActivity::class.java)
+                            startActivity(inicioSesion)
+                            this.finish()
+                            Toast.makeText(this@ModificarUsuario, "Cuenta modificada exitosamente!!!. Inicie sesión nuevamente", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@ModificarUsuario, "Cuenta modificada exitosamente!", Toast.LENGTH_SHORT).show()
+                        }
                     })
                 .setNegativeButton(android.R.string.cancel,
                     DialogInterface.OnClickListener { dialog, which ->
