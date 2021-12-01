@@ -72,6 +72,10 @@ class ModificarUsuario : AppCompatActivity() {
                 .setPositiveButton(android.R.string.ok,
                     DialogInterface.OnClickListener { dialog, which ->
                         DAOUsuario.darDeBajaUsuario(idUsuarioInt,this)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        this.finish()
+
                     })
                 .setNegativeButton(android.R.string.cancel,
                     DialogInterface.OnClickListener { dialog, which ->
