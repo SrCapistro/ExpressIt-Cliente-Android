@@ -285,9 +285,9 @@ class ModificarUsuario : AppCompatActivity() {
         fechaNac.setText("$day/$mesAux/$year")
     }
     fun cargarImagenUsuario(imageView: ImageView, idUsuarioInt: Int){
-        var urlService = "http://192.168.100.4:4000/files/media/usuarios/profile_pictures/"+idUsuarioInt // -> Capi
-        //val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+idUsuarioInt
-        //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+idUsuarioInt //-> Zuriel
+        var urlService = "http://192.168.100.4:4000/files/media/profile_pictures/"+idUsuarioInt // -> Capi
+        //val urlService = "http://26.191.102.84:4000/files/profile_pictures/"+idUsuarioInt
+        //val urlService = "http://192.168.0.21:4000/files/profile_pictures/"+idUsuarioInt //-> Zuriel
         println("Usuario Obtenido; $idUsuarioInt")
 
         val queue = Volley.newRequestQueue(this)
@@ -302,7 +302,7 @@ class ModificarUsuario : AppCompatActivity() {
     }
 
     fun validarFormato(cadena: String): String{
-        var formato = ""
+        var formato = "1"
 
         if(cadena.contains("jpeg", ignoreCase = true)){
             formato = "jpeg"
@@ -321,6 +321,9 @@ class ModificarUsuario : AppCompatActivity() {
         }
         if(cadena.contains("svg", ignoreCase = true)){
             formato = "svg"
+        }
+        if(cadena.contains("false", ignoreCase = true)){
+            formato = "jpg"
         }
         return formato;
     }

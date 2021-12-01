@@ -96,7 +96,6 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
         viewHolder.btnBorrarEntrada.setOnClickListener(){
             try{
-                DAOEntrada.borrarEntradaModerador(listaEntradas[i].idEntrada, context)
                 DAOEntrada.obtenerIdHashtagDeEntradaBorrada(listaEntradas[i].idEntrada, context,
                     object : VolleyCallback{
                         override fun onSuccessResponse(result: String) {
@@ -122,6 +121,7 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
                             }
                         }
                     })
+                DAOEntrada.borrarEntradaModerador(listaEntradas[i].idEntrada, context)
             }catch(e:Exception){
                 println("Error: ${e.message}")
                 Toast.makeText(context, "Error al eliminar entrada", Toast.LENGTH_LONG).show()
