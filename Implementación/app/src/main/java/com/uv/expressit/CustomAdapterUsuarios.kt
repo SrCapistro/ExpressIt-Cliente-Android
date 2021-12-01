@@ -43,13 +43,11 @@ class CustomAdapterUsuarios(): RecyclerView.Adapter<CustomAdapterUsuarios.ViewHo
                 var numero: Int = jsonObtenido.get("numeroFoto").toString().toInt()
 
                 if( numero > 0){
-<<<<<<< HEAD
+
                     val urlService = "http://192.168.100.4:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario //-> Capi
                     //val urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario
-=======
                     //val urlService = "http://192.168.100.4:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario
-                    var urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario // Brandon
->>>>>>> f9eabdead15a21a923bcef185f985b42fb14fba2
+                    //var urlService = "http://26.191.102.84:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario // Brandon
                     //val urlService = "http://192.168.0.21:4000/files/media/profile_pictures/"+listaUsuarios[i].idUsuario //-> Zuriel
 
                     val queue = Volley.newRequestQueue(context)

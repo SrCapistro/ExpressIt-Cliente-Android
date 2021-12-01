@@ -108,8 +108,8 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     fun cargarImagenUsuario(imageView: ImageView, nombreUsuario: String?){
-        //var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
-        var urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario // -> Brandon
+        var urlService = "http://192.168.100.4:4000/files/media/pictures/"+nombreUsuario // -> Capi
+        //var urlService = "http://26.191.102.84:4000/files/media/pictures/"+nombreUsuario // -> Brandon
         //val urlService = "http://192.168.0.21:4000/files/media/pictures/"+nombreUsuario  //-> Zuriel
 
         val queue = Volley.newRequestQueue(this)

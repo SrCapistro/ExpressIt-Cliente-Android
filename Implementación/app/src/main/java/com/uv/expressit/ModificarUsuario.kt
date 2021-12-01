@@ -237,8 +237,8 @@ class ModificarUsuario : AppCompatActivity() {
 
         var format = validarFormato(cadenaUrl);
 
-        //var url = "http://192.168.100.4:4000/files/media/usuarios/"+idUsuario+"/"+format // -> Capi
-        var url = "http://26.191.102.84:4000/files/media/usuarios/"+ idUsuario +"/"+ format // Brandon
+        var url = "http://192.168.100.4:4000/files/media/usuarios/"+idUsuario+"/"+format // -> Capi
+        //var url = "http://26.191.102.84:4000/files/media/usuarios/"+ idUsuario +"/"+ format // Brandon
         //val url = "http://192.168.0.21:4000/files/media/usuarios/"+ idUsuario +"/"+ format  //-> Zuriel
 
         println("eliminacionFotoPerfil; $idUsuario")

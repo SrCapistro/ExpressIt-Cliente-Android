@@ -129,8 +129,8 @@ class CustomAdapter: RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
         }
 
-        //var urlService = "http://192.168.100.4:4000/files/media/"+listaEntradas[i].idEntrada // -> Capi
-        var urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada // Brandon
+        var urlService = "http://192.168.100.4:4000/files/media/"+listaEntradas[i].idEntrada // -> Capi
+        //var urlService = "http://26.191.102.84:4000/files/media/"+listaEntradas[i].idEntrada // Brandon
         //val urlService = "http://192.168.0.21:4000/files/media/"+listaEntradas[i].idEntrada  // -> Zuriel
 
         val queue = Volley.newRequestQueue(context)
