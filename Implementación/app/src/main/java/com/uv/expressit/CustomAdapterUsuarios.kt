@@ -34,7 +34,7 @@ class CustomAdapterUsuarios(): RecyclerView.Adapter<CustomAdapterUsuarios.ViewHo
 
     override fun onBindViewHolder(viewHolder: CustomAdapterUsuarios.ViewHolder, @SuppressLint("RecyclerView") i: Int){
         viewHolder.nombreUsuario.setText(listaUsuarios[i].nombreUsuario)
-        viewHolder.nombrecompleto.setText(listaUsuarios[i].nombreCompletoUsuario)
+        viewHolder.nombrecompleto.setText("")
         var idUsuarioLista: Int = (listaUsuarios[i].idUsuario.toInt())
 
         DAOUsuario.obtenerNumeroDeImagenes( idUsuarioLista, context!!, object: VolleyCallback {

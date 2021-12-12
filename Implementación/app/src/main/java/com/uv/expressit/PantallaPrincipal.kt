@@ -7,10 +7,8 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -49,7 +47,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_principal)
 
-
+        val spinner = findViewById<Spinner>(R.id.comboFiltro)
         val navView = findViewById<NavigationView>(R.id.nav_view)
         val headerView = navView.getHeaderView(0)
         val imageView = headerView.findViewById<ImageView>(R.id.nav_header_imageView)
@@ -70,6 +68,28 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(parent?.getItemAtPosition(position).toString().equals("Relevancia")){
+                    obtenerEntradasPorRelevancia(idUsuarioLogeado, 1000000000, recyclerView)
+                    spinner.setSelection(0)
+                }else if (parent?.getItemAtPosition(position).toString().equals("Fecha")){
+                    obtenerEntradas(idUsuarioLogeado,10000000000,recyclerView)
+                    spinner.setSelection(0)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
         val date = String.format(currentDate)
@@ -77,7 +97,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         obtenerEntradas(idUsuarioLogeado,10000000000,recyclerView)
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)){
@@ -85,7 +105,7 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 }
             }
 
-        })
+        })*/
 
         drawer = findViewById(R.id.drawer_layout)
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -124,7 +144,57 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
 
+    fun obtenerEntradasPorRelevancia(idUsuario: Long?, idEntrada: Long?, vistaRecycler: RecyclerView?){
+        listaEntradas.clear()
+        DAOEntrada.obtenerEntradasPorRelevancia(idUsuario, idEntrada, this@PantallaPrincipal,  object : VolleyCallback{
+            override fun onSuccessResponse(result: String) {
+                val jsonArray = JSONArray(result)
+                for (i in 0 until jsonArray.length()){
+                    var entradaJson = jsonArray.getJSONObject(i)
+                    var entradaRecibida = Entrada()
+                    entradaRecibida.idEntrada = entradaJson.get("ent_idEntrada").toString().toLong()
+                    entradaRecibida.fechaEntrada = entradaJson.get("ent_fechaEntrada").toString()
+                    entradaRecibida.textoEntrada = entradaJson.get("ent_textEntrada").toString()
+                    entradaRecibida.nombreUsuario = entradaJson.get("usr_nombreUsuario").toString()
+                    entradaRecibida.likesEntrada = entradaJson.get("likes_totales").toString().toInt()
+                    try{
+                        if(entradaJson.getLong("tuLike") > -1){
+                            entradaRecibida.usuarioLike = true
+                        }
+                    }catch (exception: Exception){
+                        entradaRecibida.usuarioLike = false
+                    }
+                    idUltimaEntrada = entradaRecibida.idEntrada
+                    listaEntradas.add(entradaRecibida)
+
+
+                }
+                for(i in 0 until listaEntradas.size){
+                    DAOEntrada.obtenerHashtagEntrada(listaEntradas[i].idEntrada, this@PantallaPrincipal, object: VolleyCallback{
+                        override fun onSuccessResponse(result: String) {
+                            listaEntradas[i].listaHashtags.clear()
+                            var listaHashtags = JSONArray(result)
+
+                            for(j in 0 until listaHashtags.length()){
+                                var json = listaHashtags.getJSONObject(j)
+                                listaEntradas[i].listaHashtags.add(json.get("htg_nombre").toString())
+                            }
+                            val adapter = CustomAdapter()
+                            adapter.idUsuario = idUsuarioLogeado!!
+                            adapter.listaEntradas = listaEntradas
+                            adapter.context = this@PantallaPrincipal
+                            adapter.tipoUsuario = tipoUsuario.toString()
+                            vistaRecycler?.adapter = adapter
+                        }
+                    })
+                }
+
+            }
+        })
+    }
+
     fun obtenerEntradas(idUsuario: Long?,idEntrada: Long?, vistaRecycler: RecyclerView?){
+        listaEntradas.clear()
         DAOEntrada.obtenerEntradasDeSeguidos(idUsuario, idEntrada, this@PantallaPrincipal,  object : VolleyCallback{
             override fun onSuccessResponse(result: String) {
                 val jsonArray = JSONArray(result)
@@ -146,7 +216,6 @@ class PantallaPrincipal : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     idUltimaEntrada = entradaRecibida.idEntrada
                     listaEntradas.add(entradaRecibida)
 
-                    //listaEntradas.sortBy { entradaRecibida.fechaEntrada }
 
                 }
                 for(i in 0 until listaEntradas.size){

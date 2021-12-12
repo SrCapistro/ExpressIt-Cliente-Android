@@ -80,6 +80,17 @@ class RegistrarEntrada : AppCompatActivity() {
                         try {
                             Thread.sleep(500)
                             registrarHashTags()
+                            if(imageData != null){
+                                DAOEntrada.obtenerUltimaEntradaRegistrada(this, object: VolleyCallback{
+                                    override fun onSuccessResponse(result: String) {
+                                        var entradaRegistrada = JSONObject(JSONUtils.parsearJson(result))
+                                        var entradaRecibida = Entrada()
+                                        entradaRecibida.idEntrada = entradaRegistrada.get("ent_idEntrada").toString().toLong()
+                                        subirFoto(entradaRecibida.idEntrada)
+                                    }
+
+                                })
+                            }
                             this.finish()
                         } catch (exc: Exception) {
                             println("Error $exc")
@@ -97,17 +108,6 @@ class RegistrarEntrada : AppCompatActivity() {
                             "Ocurrió un error, intente más tarde",
                             Toast.LENGTH_LONG
                         ).show()
-                    }
-                    if(imageData != null){
-                        DAOEntrada.obtenerUltimaEntradaRegistrada(this, object: VolleyCallback{
-                            override fun onSuccessResponse(result: String) {
-                                var entradaRegistrada = JSONObject(JSONUtils.parsearJson(result))
-                                var entradaRecibida = Entrada()
-                                entradaRecibida.idEntrada = entradaRegistrada.get("ent_idEntrada").toString().toLong()
-                                subirFoto(entradaRecibida.idEntrada)
-                            }
-
-                        })
                     }
                 }else{
                     DAOEntrada.registrarEntrada(idUsuarioPublicador, entradaContenido, this)

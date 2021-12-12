@@ -20,6 +20,14 @@
         android:layout_marginTop="58dp"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/comboFiltro"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinner"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vistaEntradas"
             android:layout_width="match_parent"

@@ -228,12 +228,26 @@ class PantallaPerfil : AppCompatActivity() {
                             entradaRecibida.usuarioLike = false
                         }
                         listaEntradas.add(entradaRecibida)
-                        val adapter = CustomAdapter()
-                        adapter.idUsuario = idUsuario!!
-                        adapter.listaEntradas = listaEntradas
-                        adapter.context = this@PantallaPerfil
-                        adapter.tipoUsuario = tipoUsuario!!
-                        vistaRecycler?.adapter = adapter
+                        for(i in 0 until listaEntradas.size){
+                            DAOEntrada.obtenerHashtagEntrada(listaEntradas[i].idEntrada, this@PantallaPerfil, object: VolleyCallback{
+                                override fun onSuccessResponse(result: String) {
+                                    listaEntradas[i].listaHashtags.clear()
+                                    var listaHashtags = JSONArray(result)
+
+                                    for(j in 0 until listaHashtags.length()){
+                                        var json = listaHashtags.getJSONObject(j)
+                                        listaEntradas[i].listaHashtags.add(json.get("htg_nombre").toString())
+                                    }
+                                    val adapter = CustomAdapter()
+                                    adapter.idUsuario = idUsuario!!
+                                    adapter.listaEntradas = listaEntradas
+                                    adapter.context = this@PantallaPerfil
+                                    adapter.tipoUsuario = tipoUsuario.toString()
+                                    vistaRecycler?.adapter = adapter
+                                }
+                            })
+                        }
+
                     }
                 }
             })

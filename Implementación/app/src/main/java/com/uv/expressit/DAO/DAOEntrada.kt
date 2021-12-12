@@ -37,6 +37,21 @@ class DAOEntrada {
             queue.add(stringRequest)
         }
 
+        fun obtenerEntradasPorRelevancia(idUsuario: Long?, idEntrada: Long?,context: Context, callback: VolleyCallback){
+            val urlService = direccion+"feed/entradas_seguidores_likes/" + idUsuario+"/"+idEntrada
+            val queue = Volley.newRequestQueue(context)
+            val parametros = HashMap<String, String>()
+            val json = JSONObject(parametros as Map<*,*>)
+
+            val stringRequest = StringRequest(
+                Request.Method.GET, urlService, Response.Listener<String> { response ->
+                    callback.onSuccessResponse(response)
+                    return@Listener
+                },
+                Response.ErrorListener { print("Error") })
+            queue.add(stringRequest)
+        }
+
 
         fun obtenerHashtagEntrada(idEntrada: Long?, context: Context?, volleyCallback: VolleyCallback){
             val url = direccion+"feed/hashtags/"+idEntrada
